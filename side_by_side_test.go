@@ -503,15 +503,15 @@ func TestEverything(t *testing.T) {
 		duration:  0,
 	}
 
-	table := "\n| Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |\n"
-	table += "| :-------: | -----: | ----: | --------: | ---------: | --------: | -----------: |\n"
+	table := "| Test name | Allocs | Bytes | Duration  |\n"
+	table += "| :-------: | -----: | ----: | --------: \n"
 	for _, meas := range measuresData {
 		if !meas.isNew {
 			continue
 		}
 		totalsNew.add(meas)
 
-		table += fmt.Sprintf("| *%s* | %d | %d | %s | | | |\n", meas.name, meas.netAllocs, meas.netBytes, DurationToString(meas.duration))
+		table += fmt.Sprintf("| *%s* | %d | %d | %s |\n", meas.name, meas.netAllocs, meas.netBytes, DurationToString(meas.duration))
 
 		//t.Logf("[1] %s : %d allocs %d bytes %s", meas.name, meas.netAllocs, meas.netBytes, DurationToString(meas.duration))
 
@@ -519,9 +519,9 @@ func TestEverything(t *testing.T) {
 			t.Logf("ERROR : measurement with id %d has NO PAIR!", meas.pairId)
 		} else {
 			totalsOld.add(meas.pair)
-			table += fmt.Sprintf("| %s | %d | %d | %s | | | |\n", meas.pair.name, meas.pair.netAllocs, meas.pair.netBytes, DurationToString(meas.pair.duration))
+			table += fmt.Sprintf("| %s | %d | %d | %s |\n", meas.pair.name, meas.pair.netAllocs, meas.pair.netBytes, DurationToString(meas.pair.duration))
 
-			table += "| diffs | | | |"
+			table += "| Diffs | "
 
 			difAllocs := int64(meas.pair.netAllocs - meas.netAllocs)
 			if difAllocs == 0 {
@@ -556,9 +556,13 @@ func TestEverything(t *testing.T) {
 		}
 	}
 
-	table += fmt.Sprintf("| TOTAL (original) | %d | %d | %s | | | |\n", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
-	table += fmt.Sprintf("| TOTAL (new) | %d | %d | %s | | | |\n", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
-	t.Log(table)
+	table += fmt.Sprintf("| TOTAL (original) | %d | %d | %s |\n", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
+	table += fmt.Sprintf("| TOTAL (new) | %d | %d | %s |\n", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
+	totalNetDif := totalsOld.netAllocs - totalsNew.netAllocs
+	totalBytesDif := totalsOld.netBytes - totalsNew.netBytes
+	totalDurationDif := totalsOld.duration - totalsNew.duration
+	table += fmt.Sprintf("| TOTAL (diffs) | %d | %d | %s |\n", totalNetDif, totalBytesDif, DurationToString(totalDurationDif))
+	fmt.Println(table)
 
 }
 func (m *Measure) add(from *Measure) {
