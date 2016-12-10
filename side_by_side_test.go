@@ -4,6 +4,8 @@ import (
 	"SideBySideGorm/new_types"
 	"fmt"
 	"runtime"
+	"strconv"
+	"strings"
 	"testing"
 	"time"
 )
@@ -11,6 +13,7 @@ import (
 type (
 	MeasureData []*Measure
 	Measure     struct {
+		pairId      int
 		name        string
 		duration    uint64
 		startAllocs uint64 // The initial states of memStats.Mallocs and memStats.TotalAlloc.
@@ -18,6 +21,8 @@ type (
 		netAllocs   uint64 // The net total of this test after being run.
 		netBytes    uint64
 		start       time.Time
+		pair        *Measure
+		isNew       bool
 	}
 )
 
@@ -28,12 +33,29 @@ var (
 
 func measureAndRun(t *testing.T, name string, f func(t *testing.T)) bool {
 
-	runtime.ReadMemStats(&memStats)
-	measurement := &Measure{
-		startAllocs: memStats.Mallocs,
-		startBytes:  memStats.TotalAlloc,
-		name:        name,
+	nameParts := strings.Split(name, " ")
+	pairId, err := strconv.Atoi(nameParts[0])
+	if err != nil {
+		t.Fatalf("ERROR : %v", err)
 	}
+	measurement := &Measure{
+		pairId: pairId,
+		name:   nameParts[1],
+		isNew:  true,
+	}
+
+	for _, pairMeas := range measuresData {
+		if pairMeas.pairId == pairId {
+			measurement.isNew = false
+			pairMeas.pair = measurement
+			break
+		}
+	}
+	//t.Logf("Processing %s with id %d (is new ? %t)", nameParts[1], pairId, measurement.isNew)
+
+	runtime.ReadMemStats(&memStats)
+	measurement.startAllocs = memStats.Mallocs
+	measurement.startBytes = memStats.TotalAlloc
 
 	measurement.start = time.Now()
 	result := t.Run(name, f)
@@ -413,8 +435,8 @@ func TestEverything(t *testing.T) {
 	measureAndRun(t, "118 SelectWithVariables", SelectWithVariables)
 	measureAndRun(t, "118 SelectWithVariables", OldSelectWithVariables)
 
-	measureAndRun(t, "119  fix #1214 : FirstAndLastWithRaw", FirstAndLastWithRaw)
-	measureAndRun(t, "119  fix #1214 : FirstAndLastWithRaw", OldFirstAndLastWithRaw)
+	measureAndRun(t, "119 FirstAndLastWithRaw", FirstAndLastWithRaw)
+	measureAndRun(t, "119 FirstAndLastWithRaw", OldFirstAndLastWithRaw)
 
 	measureAndRun(t, "120 ScannableSlices", ScannableSlices)
 	measureAndRun(t, "120 ScannableSlices", OldScannableSlices)
@@ -473,66 +495,64 @@ func TestEverything(t *testing.T) {
 	totalsNew := &Measure{
 		netAllocs: 0,
 		netBytes:  0,
-		name:      "TOTAL NEW:",
 		duration:  0,
 	}
 	totalsOld := &Measure{
 		netAllocs: 0,
 		netBytes:  0,
-		name:      "TOTAL Old:",
 		duration:  0,
 	}
 
-	var newNetAllocs uint64
-	var newNetBytes uint64
-	var newDuration uint64
-
-	table := "| Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |\n"
+	table := "\n| Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |\n"
 	table += "| :-------: | -----: | ----: | --------: | ---------: | --------: | -----------: |\n"
-	for idx, measurement := range measuresData {
-		even := idx%2 == 0
-		if !even {
-			table += fmt.Sprintf("| %s | %d | %d | %s | | | |\n", measurement.name, newNetAllocs, newNetBytes, DurationToString(newDuration))
-			totalsNew.add(measurement)
-			newNetAllocs = measurement.netAllocs
-			newNetBytes = measurement.netBytes
-			newDuration = measurement.duration
+	for _, meas := range measuresData {
+		if !meas.isNew {
+			continue
+		}
+		totalsNew.add(meas)
+
+		table += fmt.Sprintf("| *%s* | %d | %d | %s | | | |\n", meas.name, meas.netAllocs, meas.netBytes, DurationToString(meas.duration))
+
+		//t.Logf("[1] %s : %d allocs %d bytes %s", meas.name, meas.netAllocs, meas.netBytes, DurationToString(meas.duration))
+
+		if meas.pair == nil {
+			t.Logf("ERROR : measurement with id %d has NO PAIR!", meas.pairId)
 		} else {
-			totalsOld.add(measurement)
-			table += fmt.Sprintf("| original | %d | %d | %s | | | |\n", measurement.netAllocs, measurement.netBytes, DurationToString(measurement.duration))
+			totalsOld.add(meas.pair)
+			table += fmt.Sprintf("| %s | %d | %d | %s | | | |\n", meas.pair.name, meas.pair.netAllocs, meas.pair.netBytes, DurationToString(meas.pair.duration))
 
 			table += "| diffs | | | |"
 
-			difAllocs := int64(measurement.netAllocs - newNetAllocs)
+			difAllocs := int64(meas.pair.netAllocs - meas.netAllocs)
 			if difAllocs == 0 {
 				table += " :zzz: |"
 			} else if difAllocs > 0 {
 				table += fmt.Sprintf(" :zap: %d |", difAllocs)
 			} else {
-				difAllocs = -difAllocs
-				table += fmt.Sprintf(" :snail: %d |", difAllocs)
+				table += fmt.Sprintf(" :snail: %d |", -difAllocs)
 			}
 
-			difBytes := int64(measurement.netBytes - newNetBytes)
+			difBytes := int64(meas.pair.netBytes - meas.netBytes)
 			if difBytes == 0 {
 				table += " :zzz: |"
 			} else if difBytes > 0 {
 				table += fmt.Sprintf(" :zap: %d |", difBytes)
 			} else {
-				difBytes = -difBytes
-				table += fmt.Sprintf(" :snail: %d |", difBytes)
+				table += fmt.Sprintf(" :snail: %d |", -difBytes)
 			}
 
-			difDuration := int64(measurement.duration - newDuration)
+			difDuration := int64(meas.pair.duration - meas.duration)
 			if difDuration == 0 {
 				table += " :zzz: |"
 			} else if difDuration > 0 {
 				table += fmt.Sprintf(" :zap: %s |", DurationToString(uint64(difDuration)))
 			} else {
-				difDuration = -difDuration
-				table += fmt.Sprintf(" :snail: %s |", DurationToString(uint64(difDuration)))
+				table += fmt.Sprintf(" :snail: %s |", DurationToString(uint64(-difDuration)))
 			}
 			table += "\n"
+
+			//t.Logf("[2] %s : %d allocs %d bytes %s", meas.pair.name, meas.pair.netAllocs, meas.pair.netBytes, DurationToString(meas.pair.duration))
+			t.Logf("[%s] Diffs : %d allocs %d bytes %d nanoseconds", meas.name, difAllocs, difBytes, difDuration)
 		}
 	}
 
