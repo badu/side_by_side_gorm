@@ -5,145 +5,145 @@ Some tests to check gorm differences after refactoring
 Example of result produced:
         | Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |
         |:---------:|-------:|------:|----------:|-----------:|----------:|-------------:|
-		|      0 OpenTestConnection    |   0    |   0   |     nothing.    |            |           |              |
-		| original (same test) |   63    |   6400   |     nothing.    |            |           |              |
-		| differences |       |      |         |3 less allocs | 256 less bytes |same time |
-		|      1 RunNewMigration    |   60    |   6144   |     nothing.    |            |           |              |
-		| original (same test) |   8321    |   1274424   |     4.5912627s    |            |           |              |
-		| differences |       |      |         |487 MORE allocs |1782776 MORE bytes |took MORE with 508.0289ms |
-		|      2 StringPrimaryKey    |   8808    |   3057200   |     5.0992916s    |            |           |              |
-		| original (same test) |   643    |   36352   |     223.0127ms    |            |           |              |
-		| differences |       |      |         |33 less allocs | 12136 less bytes |took MORE with 28.0017ms |
-		|      3 SetTable    |   610    |   24216   |     251.0144ms    |            |           |              |
-		| original (same test) |   19155    |   1579216   |     820.047ms    |            |           |              |
-		| differences |       |      |         |308 MORE allocs |595664 less bytes |took less with 81.0047ms |
-		|      4 ExceptionsWithInvalidSql    |   19463    |   983552   |     739.0423ms    |            |           |              |
-		| original (same test) |   2332    |   1101352   |     1.0001ms    |            |           |              |
-		| differences |       |      |         |940 less allocs | 1023496 less bytes |took less with 100ns |
-		|      5 HasTable    |   1392    |   77856   |     1ms    |            |           |              |
-		| original (same test) |   286    |   18480   |     124.0071ms    |            |           |              |
-		| differences |       |      |         |7 less allocs | 7640 less bytes |took MORE with 7.0004ms |
-		|      6 TableName    |   279    |   10840   |     131.0075ms    |            |           |              |
-		| original (same test) |   162    |   22512   |     nothing.    |            |           |              |
-		| differences |       |      |         |26 MORE allocs |9680 less bytes |took MORE with 1ms |
-		|      7 NullValues    |   188    |   12832   |     1ms    |            |           |              |
-		| original (same test) |   1883    |   481440   |     279.0159ms    |            |           |              |
-		| differences |       |      |         |410 less allocs | 420512 less bytes |took less with 1ms |
-		|      8 NullValuesWithFirstOrCreate    |   1473    |   60928   |     278.0159ms    |            |           |              |
-		| original (same test) |   968    |   55784   |     132.0075ms    |            |           |              |
-		| differences |       |      |         |225 MORE allocs |4384 MORE bytes |took MORE with 2.0002ms |
-		|      9 Transaction    |   1193    |   60168   |     134.0077ms    |            |           |              |
-		| original (same test) |   4258    |   629680   |     88.0051ms    |            |           |              |
-		| differences |       |      |         |46 less allocs | 412032 less bytes |took less with 34.002ms |
-		|      10 Row    |   4212    |   217648   |     54.0031ms    |            |           |              |
-		| original (same test) |   2417    |   149608   |     230.0131ms    |            |           |              |
-		| differences |       |      |         |31 less allocs | 25032 less bytes |took less with 2ms |
-		|      11 Rows    |   2386    |   124576   |     228.0131ms    |            |           |              |
-		| original (same test) |   2420    |   147232   |     238.0137ms    |            |           |              |
-		| differences |       |      |         |16 less allocs | 22144 less bytes |took less with 26.0016ms |
-		|      12 ScanRows    |   2404    |   125088   |     212.0121ms    |            |           |              |
-		| original (same test) |   2535    |   154632   |     195.0112ms    |            |           |              |
-		| differences |       |      |         |5 less allocs | 23552 less bytes |took MORE with 7.0003ms |
-		|      13 Scan    |   2530    |   131080   |     202.0115ms    |            |           |              |
-		| original (same test) |   2933    |   183968   |     213.0122ms    |            |           |              |
-		| differences |       |      |         |185 less allocs | 41312 less bytes |took less with 23.0014ms |
-		|      14 Raw    |   2748    |   142656   |     190.0108ms    |            |           |              |
-		| original (same test) |   3144    |   194776   |     279.016ms    |            |           |              |
-		| differences |       |      |         |205 less allocs | 40176 less bytes |took less with 21.0012ms |
-		|      15 Group    |   2939    |   154600   |     258.0148ms    |            |           |              |
-		| original (same test) |   163    |   6528   |     nothing.    |            |           |              |
-		| differences |       |      |         |8 MORE allocs |576 less bytes |same time |
-		|      16 Joins    |   171    |   5952   |     nothing.    |            |           |              |
-		| original (same test) |   4194    |   274984   |     79.0045ms    |            |           |              |
-		| differences |       |      |         |267 less allocs | 47176 less bytes |took MORE with 11.0006ms |
-		|      17 JoinsWithSelect    |   3927    |   227808   |     90.0051ms    |            |           |              |
-		| original (same test) |   1370    |   86368   |     88.0051ms    |            |           |              |
-		| differences |       |      |         |144 less allocs | 29064 less bytes |took less with 18.0011ms |
-		|      18 Having    |   1226    |   57304   |     70.004ms    |            |           |              |
-		| original (same test) |   201    |   13432   |     nothing.    |            |           |              |
-		| differences |       |      |         |82 less allocs | 7576 less bytes |took MORE with 1ms |
-		|      19 TimeWithZone    |   119    |   5856   |     1ms    |            |           |              |
-		| original (same test) |   3884    |   283424   |     146.0084ms    |            |           |              |
-		| differences |       |      |         |166 MORE allocs |9392 less bytes |took less with 35.002ms |
-		|      20 Hstore    |   4050    |   274032   |     111.0064ms    |            |           |              |
-		| original (same test) |   31    |   1280   |     nothing.    |            |           |              |
-		| differences |       |      |         |3 less allocs | 96 less bytes |same time |
-		|      21 SetAndGet    |   28    |   1184   |     nothing.    |            |           |              |
-		| original (same test) |   28    |   1680   |     nothing.    |            |           |              |
-		| differences |       |      |         |4 less allocs | 416 less bytes |same time |
-		|      22 CompatibilityMode    |   24    |   1264   |     nothing.    |            |           |              |
-		| original (same test) |   529    |   35816   |     nothing.    |            |           |              |
-		| differences |       |      |         |219 MORE allocs |16896 MORE bytes |same time |
-		|      23 OpenExistingDB    |   748    |   52712   |     nothing.    |            |           |              |
-		| original (same test) |   1111    |   67544   |     72.0041ms    |            |           |              |
-		| differences |       |      |         |59 MORE allocs |5800 less bytes |took MORE with 5.0003ms |
-		|      24 DdlErrors    |   1170    |   61744   |     77.0044ms    |            |           |              |
-		| original (same test) |   570    |   411384   |     1.0001ms    |            |           |              |
-		| differences |       |      |         |300 less allocs | 395232 less bytes |took less with 1.0001ms |
-		|      25 OpenWithOneParameter    |   270    |   16152   |     nothing.    |            |           |              |
-		| original (same test) |   29    |   1616   |     nothing.    |            |           |              |
-		| differences |       |      |         |8 less allocs | 672 less bytes |same time |
-		|      26 BelongsTo    |   21    |   944   |     nothing.    |            |           |              |
-		| original (same test) |   11525    |   733720   |     785.0449ms    |            |           |              |
-		| differences |       |      |         |924 less allocs | 162264 less bytes |took less with 211.0121ms |
-		|      27 BelongsToOverrideForeignKey1    |   10601    |   571456   |     574.0328ms    |            |           |              |
-		| original (same test) |   342    |   20200   |     nothing.    |            |           |              |
-		| differences |       |      |         |8 MORE allocs |2984 less bytes |same time |
-		|      28 BelongsToOverrideForeignKey2    |   350    |   17216   |     nothing.    |            |           |              |
-		| original (same test) |   248    |   17608   |     nothing.    |            |           |              |
-		| differences |       |      |         |30 MORE allocs |3936 less bytes |same time |
-		|      29 HasOne    |   278    |   13672   |     nothing.    |            |           |              |
-		| original (same test) |   15690    |   952832   |     774.0443ms    |            |           |              |
-		| differences |       |      |         |157 less allocs | 110312 less bytes |took less with 177.0102ms |
-		|      30 HasOneOverrideForeignKey1    |   15533    |   842520   |     597.0341ms    |            |           |              |
-		| original (same test) |   276    |   18824   |     nothing.    |            |           |              |
-		| differences |       |      |         |31 MORE allocs |1456 MORE bytes |took MORE with 1.0001ms |
-		|      31 HasOneOverrideForeignKey2    |   307    |   20280   |     1.0001ms    |            |           |              |
-		| original (same test) |   247    |   17544   |     nothing.    |            |           |              |
-		| differences |       |      |         |24 MORE allocs |4128 less bytes |same time |
-		|      32 HasMany    |   271    |   13416   |     nothing.    |            |           |              |
-		| original (same test) |   12089    |   811696   |     951.0544ms    |            |           |              |
-		| differences |       |      |         |521 less allocs | 163608 less bytes |took less with 226.013ms |
-		|      33 HasManyOverrideForeignKey1    |   11568    |   648088   |     725.0414ms    |            |           |              |
-		| original (same test) |   269    |   17680   |     nothing.    |            |           |              |
-		| differences |       |      |         |31 MORE allocs |2800 less bytes |same time |
-		|      34 HasManyOverrideForeignKey2    |   300    |   14880   |     nothing.    |            |           |              |
-		| original (same test) |   245    |   18912   |     1.0001ms    |            |           |              |
-		| differences |       |      |         |24 MORE allocs |4000 less bytes |took less with 1.0001ms |
-		|      35 ManyToMany    |   269    |   14912   |     nothing.    |            |           |              |
-		| original (same test) |   27575    |   1716168   |     1.7601006s    |            |           |              |
-		| differences |       |      |         |2359 less allocs | 366456 less bytes |took less with 8.0004ms |
-		|      36 Related    |   25216    |   1349712   |     1.7521002s    |            |           |              |
-		| original (same test) |   7414    |   439384   |     163.0093ms    |            |           |              |
-		| differences |       |      |         |352 MORE allocs |32960 less bytes |took less with 74.0042ms |
-		|      37 ForeignKey    |   7766    |   406424   |     89.0051ms    |            |           |              |
-		| original (same test) |   61    |   6976   |     nothing.    |            |           |              |
-		| differences |       |      |         |7 less allocs | 2224 less bytes |same time |
-		|      38 LongForeignKey    |   54    |   4752   |     nothing.    |            |           |              |
-		| original (same test) |   27    |   1136   |     nothing.    |            |           |              |
-		| differences |       |      |         |3 less allocs | 64 less bytes |same time |
-		|      39 LongForeignKeyWithShortDest    |   24    |   1072   |     nothing.    |            |           |              |
-		| original (same test) |   27    |   1152   |     nothing.    |            |           |              |
-		| differences |       |      |         |3 less allocs | 64 less bytes |same time |
-		|      40 HasManyChildrenWithOneStruct    |   24    |   1088   |     nothing.    |            |           |              |
-		| original (same test) |   668    |   43896   |     81.0046ms    |            |           |              |
-		| differences |       |      |         |34 MORE allocs |13192 less bytes |took less with 14.0008ms |
-		|      41 RunCallbacks    |   702    |   30704   |     67.0038ms    |            |           |              |
-		| original (same test) |   2778    |   149832   |     190.0109ms    |            |           |              |
-		| differences |       |      |         |23 MORE allocs |16056 less bytes |took less with 17.001ms |
-		|      42 CallbacksWithErrors    |   2801    |   133776   |     173.0099ms    |            |           |              |
-		| original (same test) |   8806    |   4309160   |     205.0118ms    |            |           |              |
-		| differences |       |      |         |3475 less allocs | 4064096 less bytes |took less with 100ns |
-		|      43 Create    |   5331    |   245064   |     205.0117ms    |            |           |              |
-		| original (same test) |   2115    |   111600   |     132.0076ms    |            |           |              |
-		| differences |       |      |         |508 MORE allocs |28968 MORE bytes |took MORE with 9.0004ms |
-		|      44 CreateWithAutoIncrement    |   2623    |   140568   |     141.008ms    |            |           |              |
-		| original (same test) |   34    |   1872   |     nothing.    |            |           |              |
-		| differences |       |      |         |3 less allocs | 96 less bytes |same time |
-		|      45 CreateWithNoGORMPrimayKey    |   31    |   1776   |     nothing.    |            |           |              |
-		| original (same test) |   280    |   18664   |     77.0044ms    |            |           |              |
-		| differences |       |      |         |5 less allocs | 6624 less bytes |took less with 18.001ms |
-		|      46 CreateWithNoStdPrimaryKeyAndDefaultValues    |   275    |   12040   |     59.0034ms    |            |           |              |
+	|      0 OpenTestConnection    |   0    |   0   |     nothing.    |            |           |              |
+	| original (same test) |   63    |   6400   |     nothing.    |            |           |              |
+	| differences |       |      |         |3 less allocs | 256 less bytes |same time |
+	|      1 RunNewMigration    |   60    |   6144   |     nothing.    |            |           |              |
+	| original (same test) |   8321    |   1274424   |     4.5912627s    |            |           |              |
+	| differences |       |      |         |487 MORE allocs |1782776 MORE bytes |took MORE with 508.0289ms |
+	|      2 StringPrimaryKey    |   8808    |   3057200   |     5.0992916s    |            |           |              |
+	| original (same test) |   643    |   36352   |     223.0127ms    |            |           |              |
+	| differences |       |      |         |33 less allocs | 12136 less bytes |took MORE with 28.0017ms |
+	|      3 SetTable    |   610    |   24216   |     251.0144ms    |            |           |              |
+	| original (same test) |   19155    |   1579216   |     820.047ms    |            |           |              |
+	| differences |       |      |         |308 MORE allocs |595664 less bytes |took less with 81.0047ms |
+	|      4 ExceptionsWithInvalidSql    |   19463    |   983552   |     739.0423ms    |            |           |              |
+	| original (same test) |   2332    |   1101352   |     1.0001ms    |            |           |              |
+	| differences |       |      |         |940 less allocs | 1023496 less bytes |took less with 100ns |
+	|      5 HasTable    |   1392    |   77856   |     1ms    |            |           |              |
+	| original (same test) |   286    |   18480   |     124.0071ms    |            |           |              |
+	| differences |       |      |         |7 less allocs | 7640 less bytes |took MORE with 7.0004ms |
+	|      6 TableName    |   279    |   10840   |     131.0075ms    |            |           |              |
+	| original (same test) |   162    |   22512   |     nothing.    |            |           |              |
+	| differences |       |      |         |26 MORE allocs |9680 less bytes |took MORE with 1ms |
+	|      7 NullValues    |   188    |   12832   |     1ms    |            |           |              |
+	| original (same test) |   1883    |   481440   |     279.0159ms    |            |           |              |
+	| differences |       |      |         |410 less allocs | 420512 less bytes |took less with 1ms |
+	|      8 NullValuesWithFirstOrCreate    |   1473    |   60928   |     278.0159ms    |            |           |              |
+	| original (same test) |   968    |   55784   |     132.0075ms    |            |           |              |
+	| differences |       |      |         |225 MORE allocs |4384 MORE bytes |took MORE with 2.0002ms |
+	|      9 Transaction    |   1193    |   60168   |     134.0077ms    |            |           |              |
+	| original (same test) |   4258    |   629680   |     88.0051ms    |            |           |              |
+	| differences |       |      |         |46 less allocs | 412032 less bytes |took less with 34.002ms |
+	|      10 Row    |   4212    |   217648   |     54.0031ms    |            |           |              |
+	| original (same test) |   2417    |   149608   |     230.0131ms    |            |           |              |
+	| differences |       |      |         |31 less allocs | 25032 less bytes |took less with 2ms |
+	|      11 Rows    |   2386    |   124576   |     228.0131ms    |            |           |              |
+	| original (same test) |   2420    |   147232   |     238.0137ms    |            |           |              |
+	| differences |       |      |         |16 less allocs | 22144 less bytes |took less with 26.0016ms |
+	|      12 ScanRows    |   2404    |   125088   |     212.0121ms    |            |           |              |
+	| original (same test) |   2535    |   154632   |     195.0112ms    |            |           |              |
+	| differences |       |      |         |5 less allocs | 23552 less bytes |took MORE with 7.0003ms |
+	|      13 Scan    |   2530    |   131080   |     202.0115ms    |            |           |              |
+	| original (same test) |   2933    |   183968   |     213.0122ms    |            |           |              |
+	| differences |       |      |         |185 less allocs | 41312 less bytes |took less with 23.0014ms |
+	|      14 Raw    |   2748    |   142656   |     190.0108ms    |            |           |              |
+	| original (same test) |   3144    |   194776   |     279.016ms    |            |           |              |
+	| differences |       |      |         |205 less allocs | 40176 less bytes |took less with 21.0012ms |
+	|      15 Group    |   2939    |   154600   |     258.0148ms    |            |           |              |
+	| original (same test) |   163    |   6528   |     nothing.    |            |           |              |
+	| differences |       |      |         |8 MORE allocs |576 less bytes |same time |
+	|      16 Joins    |   171    |   5952   |     nothing.    |            |           |              |
+	| original (same test) |   4194    |   274984   |     79.0045ms    |            |           |              |
+	| differences |       |      |         |267 less allocs | 47176 less bytes |took MORE with 11.0006ms |
+	|      17 JoinsWithSelect    |   3927    |   227808   |     90.0051ms    |            |           |              |
+	| original (same test) |   1370    |   86368   |     88.0051ms    |            |           |              |
+	| differences |       |      |         |144 less allocs | 29064 less bytes |took less with 18.0011ms |
+	|      18 Having    |   1226    |   57304   |     70.004ms    |            |           |              |
+	| original (same test) |   201    |   13432   |     nothing.    |            |           |              |
+	| differences |       |      |         |82 less allocs | 7576 less bytes |took MORE with 1ms |
+	|      19 TimeWithZone    |   119    |   5856   |     1ms    |            |           |              |
+	| original (same test) |   3884    |   283424   |     146.0084ms    |            |           |              |
+	| differences |       |      |         |166 MORE allocs |9392 less bytes |took less with 35.002ms |
+	|      20 Hstore    |   4050    |   274032   |     111.0064ms    |            |           |              |
+	| original (same test) |   31    |   1280   |     nothing.    |            |           |              |
+	| differences |       |      |         |3 less allocs | 96 less bytes |same time |
+	|      21 SetAndGet    |   28    |   1184   |     nothing.    |            |           |              |
+	| original (same test) |   28    |   1680   |     nothing.    |            |           |              |
+	| differences |       |      |         |4 less allocs | 416 less bytes |same time |
+	|      22 CompatibilityMode    |   24    |   1264   |     nothing.    |            |           |              |
+	| original (same test) |   529    |   35816   |     nothing.    |            |           |              |
+	| differences |       |      |         |219 MORE allocs |16896 MORE bytes |same time |
+	|      23 OpenExistingDB    |   748    |   52712   |     nothing.    |            |           |              |
+	| original (same test) |   1111    |   67544   |     72.0041ms    |            |           |              |
+	| differences |       |      |         |59 MORE allocs |5800 less bytes |took MORE with 5.0003ms |
+	|      24 DdlErrors    |   1170    |   61744   |     77.0044ms    |            |           |              |
+	| original (same test) |   570    |   411384   |     1.0001ms    |            |           |              |
+	| differences |       |      |         |300 less allocs | 395232 less bytes |took less with 1.0001ms |
+	|      25 OpenWithOneParameter    |   270    |   16152   |     nothing.    |            |           |              |
+	| original (same test) |   29    |   1616   |     nothing.    |            |           |              |
+	| differences |       |      |         |8 less allocs | 672 less bytes |same time |
+	|      26 BelongsTo    |   21    |   944   |     nothing.    |            |           |              |
+	| original (same test) |   11525    |   733720   |     785.0449ms    |            |           |              |
+	| differences |       |      |         |924 less allocs | 162264 less bytes |took less with 211.0121ms |
+	|      27 BelongsToOverrideForeignKey1    |   10601    |   571456   |     574.0328ms    |            |           |             |
+	| original (same test) |   342    |   20200   |     nothing.    |            |           |              |
+	| differences |       |      |         |8 MORE allocs |2984 less bytes |same time |
+	|      28 BelongsToOverrideForeignKey2    |   350    |   17216   |     nothing.    |            |           |              |
+	| original (same test) |   248    |   17608   |     nothing.    |            |           |              |
+	| differences |       |      |         |30 MORE allocs |3936 less bytes |same time |
+	|      29 HasOne    |   278    |   13672   |     nothing.    |            |           |              |
+	| original (same test) |   15690    |   952832   |     774.0443ms    |            |           |              |
+	| differences |       |      |         |157 less allocs | 110312 less bytes |took less with 177.0102ms |
+	|      30 HasOneOverrideForeignKey1    |   15533    |   842520   |     597.0341ms    |            |           |              |
+	| original (same test) |   276    |   18824   |     nothing.    |            |           |              |
+	| differences |       |      |         |31 MORE allocs |1456 MORE bytes |took MORE with 1.0001ms |
+	|      31 HasOneOverrideForeignKey2    |   307    |   20280   |     1.0001ms    |            |           |              |
+	| original (same test) |   247    |   17544   |     nothing.    |            |           |              |
+	| differences |       |      |         |24 MORE allocs |4128 less bytes |same time |
+	|      32 HasMany    |   271    |   13416   |     nothing.    |            |           |              |
+	| original (same test) |   12089    |   811696   |     951.0544ms    |            |           |              |
+	| differences |       |      |         |521 less allocs | 163608 less bytes |took less with 226.013ms |
+	|      33 HasManyOverrideForeignKey1    |   11568    |   648088   |     725.0414ms    |            |           |              |
+	| original (same test) |   269    |   17680   |     nothing.    |            |           |              |
+	| differences |       |      |         |31 MORE allocs |2800 less bytes |same time |
+	|      34 HasManyOverrideForeignKey2    |   300    |   14880   |     nothing.    |            |           |              |
+	| original (same test) |   245    |   18912   |     1.0001ms    |            |           |              |
+	| differences |       |      |         |24 MORE allocs |4000 less bytes |took less with 1.0001ms |
+	|      35 ManyToMany    |   269    |   14912   |     nothing.    |            |           |              |
+	| original (same test) |   27575    |   1716168   |     1.7601006s    |            |           |              |
+	| differences |       |      |         |2359 less allocs | 366456 less bytes |took less with 8.0004ms |
+	|      36 Related    |   25216    |   1349712   |     1.7521002s    |            |           |              |
+	| original (same test) |   7414    |   439384   |     163.0093ms    |            |           |              |
+	| differences |       |      |         |352 MORE allocs |32960 less bytes |took less with 74.0042ms |
+	|      37 ForeignKey    |   7766    |   406424   |     89.0051ms    |            |           |              |
+	| original (same test) |   61    |   6976   |     nothing.    |            |           |              |
+	| differences |       |      |         |7 less allocs | 2224 less bytes |same time |
+	|      38 LongForeignKey    |   54    |   4752   |     nothing.    |            |           |              |
+	| original (same test) |   27    |   1136   |     nothing.    |            |           |              |
+	| differences |       |      |         |3 less allocs | 64 less bytes |same time |
+	|      39 LongForeignKeyWithShortDest    |   24    |   1072   |     nothing.    |            |           |              |
+	| original (same test) |   27    |   1152   |     nothing.    |            |           |              |
+	| differences |       |      |         |3 less allocs | 64 less bytes |same time |
+	|      40 HasManyChildrenWithOneStruct    |   24    |   1088   |     nothing.    |            |           |              |
+	| original (same test) |   668    |   43896   |     81.0046ms    |            |           |              |
+	| differences |       |      |         |34 MORE allocs |13192 less bytes |took less with 14.0008ms |
+	|      41 RunCallbacks    |   702    |   30704   |     67.0038ms    |            |           |              |
+	| original (same test) |   2778    |   149832   |     190.0109ms    |            |           |              |
+	| differences |       |      |         |23 MORE allocs |16056 less bytes |took less with 17.001ms |
+	|      42 CallbacksWithErrors    |   2801    |   133776   |     173.0099ms    |            |           |              |
+	| original (same test) |   8806    |   4309160   |     205.0118ms    |            |           |              |
+	| differences |       |      |         |3475 less allocs | 4064096 less bytes |took less with 100ns |
+	|      43 Create    |   5331    |   245064   |     205.0117ms    |            |           |              |
+	| original (same test) |   2115    |   111600   |     132.0076ms    |            |           |              |
+	| differences |       |      |         |508 MORE allocs |28968 MORE bytes |took MORE with 9.0004ms |
+	|      44 CreateWithAutoIncrement    |   2623    |   140568   |     141.008ms    |            |           |              |
+	| original (same test) |   34    |   1872   |     nothing.    |            |           |              |
+	| differences |       |      |         |3 less allocs | 96 less bytes |same time |
+	|      45 CreateWithNoGORMPrimayKey    |   31    |   1776   |     nothing.    |            |           |              |
+	| original (same test) |   280    |   18664   |     77.0044ms    |            |           |              |
+	| differences |       |      |         |5 less allocs | 6624 less bytes |took less with 18.001ms |
+	|      46 CreateWithNoStdPrimaryKeyAndDefaultValues    |   275    |   12040   |     59.0034ms    |            |           |              |
 		| original (same test) |   1188    |   75960   |     155.0089ms    |            |           |              |
 		| differences |       |      |         |94 less allocs | 25856 less bytes |took less with 21.0013ms |
 		|      47 AnonymousScanner    |   1094    |   50104   |     134.0076ms    |            |           |              |
