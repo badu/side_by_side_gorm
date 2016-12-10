@@ -488,55 +488,56 @@ func TestEverything(t *testing.T) {
 	var newDuration uint64
 
 	table := "| Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |\n"
-	table += "|:---------:|-------:|------:|----------:|-----------:|----------:|-------------:|\n"
+	table += "| :-------: | -----: | ----: | --------: | ---------: | --------: | -----------: |\n"
 	for idx, measurement := range measuresData {
-		if idx%2 == 0 {
-			table += fmt.Sprintf("|      %s    |   %d    |   %d   |     %s    |            |           |              |\n", measurement.name, newNetAllocs, newNetBytes, DurationToString(newDuration))
+		even := idx%2 == 0
+		if !even {
+			table += fmt.Sprintf("| %s | %d | %d | %s | | | |\n", measurement.name, newNetAllocs, newNetBytes, DurationToString(newDuration))
 			totalsNew.add(measurement)
 			newNetAllocs = measurement.netAllocs
 			newNetBytes = measurement.netBytes
 			newDuration = measurement.duration
 		} else {
 			totalsOld.add(measurement)
-			table += fmt.Sprintf("| original (same test) |   %d    |   %d   |     %s    |            |           |              |\n", measurement.netAllocs, measurement.netBytes, DurationToString(measurement.duration))
+			table += fmt.Sprintf("| original | %d | %d | %s | | | |\n", measurement.netAllocs, measurement.netBytes, DurationToString(measurement.duration))
 
-			table += "| differences |       |      |         |"
+			table += "| diffs | | | |"
 
 			difAllocs := int64(measurement.netAllocs - newNetAllocs)
 			if difAllocs == 0 {
-				table += "same allocs | "
+				table += " :zzz: |"
 			} else if difAllocs > 0 {
-				table += fmt.Sprintf("%d less allocs | ", difAllocs)
+				table += fmt.Sprintf(" :zap: %d |", difAllocs)
 			} else {
 				difAllocs = -difAllocs
-				table += fmt.Sprintf("%d MORE allocs |", difAllocs)
+				table += fmt.Sprintf(" :snail: %d |", difAllocs)
 			}
 
 			difBytes := int64(measurement.netBytes - newNetBytes)
 			if difBytes == 0 {
-				table += "same bytes |"
+				table += " :zzz: |"
 			} else if difBytes > 0 {
-				table += fmt.Sprintf("%d less bytes |", difBytes)
+				table += fmt.Sprintf(" :zap: %d |", difBytes)
 			} else {
 				difBytes = -difBytes
-				table += fmt.Sprintf("%d MORE bytes |", difBytes)
+				table += fmt.Sprintf(" :snail: %d |", difBytes)
 			}
 
 			difDuration := int64(measurement.duration - newDuration)
 			if difDuration == 0 {
-				table += "same time |"
+				table += " :zzz: |"
 			} else if difDuration > 0 {
-				table += fmt.Sprintf("took less with %s |", DurationToString(uint64(difDuration)))
+				table += fmt.Sprintf(" :zap: %s |", DurationToString(uint64(difDuration)))
 			} else {
 				difDuration = -difDuration
-				table += fmt.Sprintf("took MORE with %s |", DurationToString(uint64(difDuration)))
+				table += fmt.Sprintf(" :snail: %s |", DurationToString(uint64(difDuration)))
 			}
 			table += "\n"
 		}
 	}
 
-	table += fmt.Sprintf("|     TOTAL (original)    |   %d    |   %d   |     %s    |            |           |              |\n", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
-	table += fmt.Sprintf("|      TOTAL (new)    |   %d    |   %d   |     %s    |            |           |              |\n", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
+	table += fmt.Sprintf("| TOTAL (original) | %d | %d | %s | | | |\n", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
+	table += fmt.Sprintf("| TOTAL (new) | %d | %d | %s | | | |\n", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
 	t.Log(table)
 
 }
