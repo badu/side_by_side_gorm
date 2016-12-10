@@ -4,7 +4,7 @@ Some tests to check gorm differences after refactoring
 
 Example of result produced:
 
-        | Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes | Dif Duration |
+        | Test name | Allocs | Bytes | Duration  | Dif Allocs | Dif Bytes |  Dif Duration |
         | :---------: | -------: | ------: | ----------: | -----------: | ----------: | -------------: |
 		|      0 OpenTestConnection    |   0    |   0   |     nothing.    |            |           |              |
 		| original (same test) |   63    |   6400   |     nothing.    |            |           |              |
