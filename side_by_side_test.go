@@ -523,7 +523,7 @@ func TestEverything(t *testing.T) {
 
 			table += "| Diffs | "
 
-			difAllocs := int64(meas.pair.netAllocs - meas.netAllocs)
+			difAllocs := int64(meas.pair.netAllocs) - int64(meas.netAllocs)
 			if difAllocs == 0 {
 				table += " :zzz: |"
 			} else if difAllocs > 0 {
@@ -532,7 +532,7 @@ func TestEverything(t *testing.T) {
 				table += fmt.Sprintf(" :snail: %d |", -difAllocs)
 			}
 
-			difBytes := int64(meas.pair.netBytes - meas.netBytes)
+			difBytes := int64(meas.pair.netBytes) - int64(meas.netBytes)
 			if difBytes == 0 {
 				table += " :zzz: |"
 			} else if difBytes > 0 {
@@ -541,7 +541,7 @@ func TestEverything(t *testing.T) {
 				table += fmt.Sprintf(" :snail: %d |", -difBytes)
 			}
 
-			difDuration := int64(meas.pair.duration - meas.duration)
+			difDuration := int64(meas.pair.duration) - int64(meas.duration)
 			if difDuration == 0 {
 				table += " :zzz: |"
 			} else if difDuration > 0 {
@@ -558,10 +558,49 @@ func TestEverything(t *testing.T) {
 
 	table += fmt.Sprintf("| TOTAL (original) | %d | %d | %s |\n", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
 	table += fmt.Sprintf("| TOTAL (new) | %d | %d | %s |\n", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
-	totalNetDif := totalsOld.netAllocs - totalsNew.netAllocs
-	totalBytesDif := totalsOld.netBytes - totalsNew.netBytes
-	totalDurationDif := totalsOld.duration - totalsNew.duration
-	table += fmt.Sprintf("| TOTAL (diffs) | %d | %d | %s |\n", totalNetDif, totalBytesDif, DurationToString(totalDurationDif))
+
+	totalNetStr := ""
+	totalNetDif := int64(totalsOld.netAllocs) - int64(totalsNew.netAllocs)
+	if totalNetDif == 0 {
+		totalNetStr = " :zzz: |"
+	} else if totalNetDif > 0 {
+		totalNetStr = fmt.Sprintf(" :zap: %d |", totalNetDif)
+	} else {
+		totalNetStr = fmt.Sprintf(" :snail: %d |", -totalNetDif)
+	}
+
+	totalBytesStr := ""
+	totalBytesDif := int64(totalsOld.netBytes) - int64(totalsNew.netBytes)
+	if totalBytesDif == 0 {
+		totalBytesStr = " :zzz: |"
+	} else if totalBytesDif > 0 {
+		totalBytesStr = fmt.Sprintf(" :zap: %d |", totalBytesDif)
+	} else {
+		totalBytesStr = fmt.Sprintf(" :snail: %d |", -totalBytesDif)
+	}
+
+	totalDurStr := ""
+	totalDurStr2 := ""
+	totalDurationDif := int64(totalsOld.duration) - int64(totalsNew.duration)
+	if totalDurationDif == 0 {
+		totalDurStr = " :zzz: |"
+		totalDurStr2 = "0"
+	} else if totalDurationDif > 0 {
+		s := DurationToString(uint64(totalDurationDif))
+		totalDurStr = fmt.Sprintf(" :zap: %s |", s)
+		totalDurStr2 = s
+	} else {
+		s := DurationToString(uint64(-totalDurationDif))
+		totalDurStr = fmt.Sprintf(" :snail: %s |", s)
+		totalDurStr2 = s
+	}
+
+	t.Logf("TOTAL (original)  %d allocs %d bytes %s", totalsOld.netAllocs, totalsOld.netBytes, DurationToString(totalsOld.duration))
+	t.Logf("TOTAL (new) %d allocs %d bytes %s", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
+	t.Logf("DIFS : %d allocs %d bytes %s (%d nanoseconds)", totalNetDif, totalBytesDif, totalDurStr2, totalDurationDif)
+
+	table += fmt.Sprintf("| TOTAL (diffs) %s %s %s\n", totalNetStr, totalBytesStr, totalDurStr)
+
 	fmt.Println(table)
 
 }

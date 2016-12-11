@@ -116,13 +116,6 @@ func NewNameIn(names []string) func(d *newGorm.DBCon) *newGorm.DBCon {
 	}
 }
 
-func newcreate(s *newGorm.Scope)        {}
-func newbeforeCreate1(s *newGorm.Scope) {}
-func newbeforeCreate2(s *newGorm.Scope) {}
-func newafterCreate1(s *newGorm.Scope)  {}
-func newafterCreate2(s *newGorm.Scope)  {}
-func newreplaceCreate(s *newGorm.Scope) {}
-
 func newtoJSONString(v interface{}) []byte {
 	r, _ := json.MarshalIndent(v, "", "  ")
 	return r
@@ -142,11 +135,8 @@ func NewDialectHasTzSupport() bool {
 }
 
 func OpenNewTestConnection(t *testing.T) {
-	//t.Logf("Opening connection...")
 	osDialect := os.Getenv("GORM_DIALECT")
 	osDBAddress := os.Getenv("GORM_DBADDRESS")
-
-	//osDialect = "mysql"
 
 	switch osDialect {
 	case "mysql":
@@ -159,9 +149,7 @@ func OpenNewTestConnection(t *testing.T) {
 			osDBAddress = fmt.Sprintf("tcp(%v)", osDBAddress)
 		}
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("mysql", fmt.Sprintf("root:@%v/gorm?charset=utf8&parseTime=True", osDBAddress))
-		if new_types.TestDBErr == nil {
-			//t.Log("Using MySQL")
-		} else {
+		if new_types.TestDBErr != nil {
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	case "postgres":
@@ -169,23 +157,18 @@ func OpenNewTestConnection(t *testing.T) {
 			osDBAddress = fmt.Sprintf("host=%v ", osDBAddress)
 		}
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("postgres", fmt.Sprintf("%vuser=gorm password=gorm DB.name=gorm sslmode=disable", osDBAddress))
-		if new_types.TestDBErr == nil {
-			//t.Log("Using Postgres")
-		} else {
+		if new_types.TestDBErr != nil{
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	case "foundation":
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("foundation", "dbname=gorm port=15432 sslmode=disable")
-		if new_types.TestDBErr == nil {
-			//t.Log("Using Foundation")
-		} else {
+		if new_types.TestDBErr != nil{
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	default:
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("sqlite3", "test.db?cache=shared&mode=memory")
-		if new_types.TestDBErr == nil {
-			//t.Log("Using SQLite 3")
-		} else {
+		if new_types.TestDBErr != nil {
+
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	}

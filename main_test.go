@@ -32,27 +32,27 @@ func OpenTestConnection(t *testing.T) {
 		// CREATE USER 'gorm'@'localhost' IDENTIFIED BY 'gorm';
 		// CREATE DATABASE gorm;
 		// GRANT ALL ON gorm.* TO 'gorm'@'localhost';
-		fmt.Println("testing mysql...")
+		//fmt.Println("testing mysql...")
 		dbhost := os.Getenv("GORM_DBADDRESS")
 		if dbhost != "" {
 			dbhost = fmt.Sprintf("tcp(%v)", dbhost)
 		}
 		OLDDB, oldDBError = gorm.Open("mysql", fmt.Sprintf("gorm:gorm@%v/gorm?charset=utf8&parseTime=True", dbhost))
 	case "postgres":
-		fmt.Println("testing postgres...")
+		//fmt.Println("testing postgres...")
 		dbhost := os.Getenv("GORM_DBHOST")
 		if dbhost != "" {
 			dbhost = fmt.Sprintf("host=%v ", dbhost)
 		}
 		OLDDB, oldDBError = gorm.Open("postgres", fmt.Sprintf("%vuser=gorm password=gorm DB.name=gorm sslmode=disable", dbhost))
 	case "foundation":
-		fmt.Println("testing foundation...")
+		//fmt.Println("testing foundation...")
 		OLDDB, oldDBError = gorm.Open("foundation", "dbname=gorm port=15432 sslmode=disable")
 	case "mssql":
-		fmt.Println("testing mssql...")
+		//fmt.Println("testing mssql...")
 		OLDDB, oldDBError = gorm.Open("mssql", "server=SERVER_HERE;database=rogue;user id=USER_HERE;password=PW_HERE;port=1433")
 	default:
-		fmt.Println("testing sqlite3...")
+		//fmt.Println("testing sqlite3...")
 		OLDDB, oldDBError = gorm.Open("sqlite3", filepath.Join(os.TempDir(), "gorm.db"))
 	}
 
