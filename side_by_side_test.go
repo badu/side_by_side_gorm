@@ -599,7 +599,7 @@ func TestEverything(t *testing.T) {
 	t.Logf("TOTAL (new) %d allocs %d bytes %s", totalsNew.netAllocs, totalsNew.netBytes, DurationToString(totalsNew.duration))
 	t.Logf("DIFS : %d allocs %d bytes %s (%d nanoseconds)", totalNetDif, totalBytesDif, totalDurStr2, totalDurationDif)
 
-	table += fmt.Sprintf("| TOTAL (diffs) %s %s %s\n", totalNetStr, totalBytesStr, totalDurStr)
+	table += fmt.Sprintf("| TOTAL (diffs) | %s %s %s\n", totalNetStr, totalBytesStr, totalDurStr)
 
 	fmt.Println(table)
 

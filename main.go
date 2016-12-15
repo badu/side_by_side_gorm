@@ -135,20 +135,24 @@ func NewDialectHasTzSupport() bool {
 }
 
 func OpenNewTestConnection(t *testing.T) {
+	//os.Setenv("GORM_DIALECT", "postgres")
+	//os.Setenv("GORM_DIALECT", "foundation")
+	//os.Setenv("GORM_DIALECT", "sqlite")
+
+	os.Setenv("GORM_DIALECT", "mysql")
+	os.Setenv("GORM_DBADDRESS", "127.0.0.1:3306")
+	os.Setenv("GORM_CONN1", "root:@%v/gorm?charset=utf8&parseTime=True")
+	os.Setenv("GORM_CONN2", "root:@%v/orig_gorm?charset=utf8&parseTime=True")
+
 	osDialect := os.Getenv("GORM_DIALECT")
 	osDBAddress := os.Getenv("GORM_DBADDRESS")
-
+	osConn := os.Getenv("GORM_CONN1")
 	switch osDialect {
 	case "mysql":
-		//osDBAddress = "127.0.0.1:3306"
-
-		// CREATE USER 'gorm'@'localhost' IDENTIFIED BY 'gorm';
-		// CREATE DATABASE gorm;
-		// GRANT ALL ON * TO 'gorm'@'localhost';
 		if osDBAddress != "" {
 			osDBAddress = fmt.Sprintf("tcp(%v)", osDBAddress)
 		}
-		new_types.TestDB, new_types.TestDBErr = newGorm.Open("mysql", fmt.Sprintf("root:@%v/gorm?charset=utf8&parseTime=True", osDBAddress))
+		new_types.TestDB, new_types.TestDBErr = newGorm.Open("mysql", fmt.Sprintf(osConn, osDBAddress))
 		if new_types.TestDBErr != nil {
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
@@ -157,24 +161,24 @@ func OpenNewTestConnection(t *testing.T) {
 			osDBAddress = fmt.Sprintf("host=%v ", osDBAddress)
 		}
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("postgres", fmt.Sprintf("%vuser=gorm password=gorm DB.name=gorm sslmode=disable", osDBAddress))
-		if new_types.TestDBErr != nil{
+		if new_types.TestDBErr != nil {
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	case "foundation":
+
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("foundation", "dbname=gorm port=15432 sslmode=disable")
-		if new_types.TestDBErr != nil{
+		if new_types.TestDBErr != nil {
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	default:
 		new_types.TestDB, new_types.TestDBErr = newGorm.Open("sqlite3", "test.db?cache=shared&mode=memory")
 		if new_types.TestDBErr != nil {
-
 			t.Fatalf("ERROR : %v", new_types.TestDBErr)
 		}
 	}
 	//TODO : @Badu - uncomment below if you want full traces
-	//TestDB.SetLogMode(newGorm.LOG_DEBUG)
-
+	//TestDB.SetLogMode(gorm.LOG_DEBUG)
+	//TestDB.LogMode(true)
 	new_types.TestDB.DB().SetMaxIdleConns(10)
 }
 

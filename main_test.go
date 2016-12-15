@@ -27,6 +27,7 @@ var (
 )
 
 func OpenTestConnection(t *testing.T) {
+	osConn := os.Getenv("GORM_CONN2")
 	switch os.Getenv("GORM_DIALECT") {
 	case "mysql":
 		// CREATE USER 'gorm'@'localhost' IDENTIFIED BY 'gorm';
@@ -37,7 +38,7 @@ func OpenTestConnection(t *testing.T) {
 		if dbhost != "" {
 			dbhost = fmt.Sprintf("tcp(%v)", dbhost)
 		}
-		OLDDB, oldDBError = gorm.Open("mysql", fmt.Sprintf("gorm:gorm@%v/gorm?charset=utf8&parseTime=True", dbhost))
+		OLDDB, oldDBError = gorm.Open("mysql", fmt.Sprintf(osConn, dbhost))
 	case "postgres":
 		//fmt.Println("testing postgres...")
 		dbhost := os.Getenv("GORM_DBHOST")

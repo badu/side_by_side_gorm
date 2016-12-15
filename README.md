@@ -2,424 +2,424 @@
 
 Some tests to check gorm differences after refactoring
 
-Example (test run on 11th of December 2016) of result produced:
+Example (test run on 15th of December 2016) of result produced:
 
 | Test name | Allocs | Bytes | Duration  |
 | :-------: | -----: | ----: | --------: 
-| *OpenTestConnection* | 57 | 4448 | 1ms |
-| OpenTestConnection | 58 | 4608 | nothing. |
-| Diffs |  :zap: 1 | :zap: 160 | :snail: 1ms |
-| *RunNewMigration* | 8817 | 3058064 | 4.9812849s |
-| RunMigration | 8319 | 1273992 | 5.3453057s |
-| Diffs |  :snail: 498 | :snail: 1784072 | :zap: 364.0208ms |
-| *StringPrimaryKey* | 610 | 24200 | 259.0148ms |
-| StringPrimaryKey | 643 | 36352 | 290.0166ms |
-| Diffs |  :zap: 33 | :zap: 12152 | :zap: 31.0018ms |
-| *SetTable* | 19456 | 983520 | 864.0494ms |
-| SetTable | 19151 | 1579296 | 954.0546ms |
-| Diffs |  :snail: 305 | :zap: 595776 | :zap: 90.0052ms |
-| *ExceptionsWithInvalidSql* | 1390 | 78752 | 1ms |
-| ExceptionsWithInvalidSql | 2331 | 1101272 | 1.0001ms |
-| Diffs |  :zap: 941 | :zap: 1022520 | :zap: 100ns |
-| *HasTable* | 278 | 10760 | 147.0084ms |
-| HasTable | 285 | 18400 | 407.0233ms |
-| Diffs |  :zap: 7 | :zap: 7640 | :zap: 260.0149ms |
-| *TableName* | 186 | 12544 | 1ms |
+| *OpenTestConnection* | 128 | 12976 | 1ms |
+| OpenTestConnection | 99 | 10896 | nothing. |
+| Diffs |  :snail: 29 | :snail: 2080 | :snail: 1ms |
+| *RunNewMigration* | 9178 | 3069208 | 5.9183385s |
+| RunMigration | 17590 | 10690824 | 7.674439s |
+| Diffs |  :zap: 8412 | :zap: 7621616 | :zap: 1.7561005s |
+| *StringPrimaryKey* | 588 | 23560 | 342.0195ms |
+| StringPrimaryKey | 983 | 434672 | 544.0311ms |
+| Diffs |  :zap: 395 | :zap: 411112 | :zap: 202.0116ms |
+| *SetTable* | 19776 | 995000 | 1.4240815s |
+| SetTable | 19593 | 1935368 | 841.0481ms |
+| Diffs |  :snail: 183 | :zap: 940368 | :snail: 583.0334ms |
+| *ExceptionsWithInvalidSql* | 1361 | 77008 | 1ms |
+| ExceptionsWithInvalidSql | 2318 | 1101432 | 1.0001ms |
+| Diffs |  :zap: 957 | :zap: 1024424 | :zap: 100ns |
+| *HasTable* | 338 | 12600 | 403.0231ms |
+| HasTable | 696 | 418256 | 2.0351164s |
+| Diffs |  :zap: 358 | :zap: 405656 | :zap: 1.6320933s |
+| *TableName* | 187 | 12752 | nothing. |
 | TableName | 161 | 22432 | nothing. |
-| Diffs |  :snail: 25 | :zap: 9888 | :snail: 1ms |
-| *NullValues* | 1459 | 59936 | 334.0191ms |
-| NullValues | 1894 | 481712 | 350.02ms |
-| Diffs |  :zap: 435 | :zap: 421776 | :zap: 16.0009ms |
-| *NullValuesWithFirstOrCreate* | 1191 | 60024 | 141.0081ms |
-| NullValuesWithFirstOrCreate | 967 | 55704 | 165.0094ms |
-| Diffs |  :snail: 224 | :snail: 4320 | :zap: 24.0013ms |
-| *Transaction* | 4210 | 217440 | 71.0041ms |
-| Transaction | 4264 | 631424 | 97.0055ms |
-| Diffs |  :zap: 54 | :zap: 413984 | :zap: 26.0014ms |
-| *Row* | 2385 | 124496 | 216.0124ms |
-| Row | 2409 | 149016 | 217.0124ms |
-| Diffs |  :zap: 24 | :zap: 24520 | :zap: 1ms |
-| *Rows* | 2403 | 124880 | 400.0229ms |
-| Rows | 2419 | 147216 | 242.0138ms |
-| Diffs |  :zap: 16 | :zap: 22336 | :snail: 158.0091ms |
-| *ScanRows* | 2529 | 131000 | 177.0101ms |
-| ScanRows | 2534 | 154488 | 223.0128ms |
-| Diffs |  :zap: 5 | :zap: 23488 | :zap: 46.0027ms |
-| *Scan* | 2747 | 142576 | 186.0106ms |
-| Scan | 2932 | 183888 | 212.0121ms |
-| Diffs |  :zap: 185 | :zap: 41312 | :zap: 26.0015ms |
-| *Raw* | 2939 | 154728 | 218.0125ms |
-| Raw | 3138 | 194368 | 290.0166ms |
-| Diffs |  :zap: 199 | :zap: 39640 | :zap: 72.0041ms |
-| *Group* | 170 | 5872 | nothing. |
-| Group | 161 | 6240 | nothing. |
-| Diffs |  :snail: 9 | :zap: 368 | :zzz: |
-| *Joins* | 3927 | 228256 | 80.0045ms |
-| Joins | 4195 | 275128 | 89.0051ms |
-| Diffs |  :zap: 268 | :zap: 46872 | :zap: 9.0006ms |
-| *JoinsWithSelect* | 1225 | 57224 | 172.0099ms |
-| JoinsWithSelect | 1369 | 86096 | 119.0068ms |
-| Diffs |  :zap: 144 | :zap: 28872 | :snail: 53.0031ms |
-| *Having* | 118 | 5776 | nothing. |
-| Having | 200 | 13352 | nothing. |
-| Diffs |  :zap: 82 | :zap: 7576 | :zzz: |
-| *TimeWithZone* | 4051 | 274304 | 160.0092ms |
-| TimeWithZone | 3880 | 282720 | 164.0094ms |
-| Diffs |  :snail: 171 | :zap: 8416 | :zap: 4.0002ms |
-| *Hstore* | 27 | 1104 | nothing. |
-| Hstore | 30 | 1200 | nothing. |
+| Diffs |  :snail: 26 | :zap: 9680 | :zzz: |
+| *NullValues* | 1475 | 58272 | 467.0267ms |
+| NullValues | 2226 | 881832 | 259.0148ms |
+| Diffs |  :zap: 751 | :zap: 823560 | :snail: 208.0119ms |
+| *NullValuesWithFirstOrCreate* | 1144 | 57384 | 115.0066ms |
+| NullValuesWithFirstOrCreate | 932 | 55704 | 58.0033ms |
+| Diffs |  :snail: 212 | :snail: 1680 | :snail: 57.0033ms |
+| *Transaction* | 4131 | 215248 | 92.0053ms |
+| Transaction | 4134 | 629216 | 267.0153ms |
+| Diffs |  :zap: 3 | :zap: 413968 | :zap: 175.01ms |
+| *Row* | 2424 | 125920 | 100.0057ms |
+| Row | 2344 | 145200 | 100.0057ms |
+| Diffs |  :snail: 80 | :zap: 19280 | :zzz: |
+| *Rows* | 2437 | 126560 | 100.0057ms |
+| Rows | 2356 | 145632 | 91.0052ms |
+| Diffs |  :snail: 81 | :zap: 19072 | :snail: 9.0005ms |
+| *ScanRows* | 2564 | 132408 | 83.0047ms |
+| ScanRows | 2473 | 153048 | 83.0048ms |
+| Diffs |  :snail: 91 | :zap: 20640 | :zap: 100ns |
+| *Scan* | 2766 | 143152 | 100.0057ms |
+| Scan | 2858 | 182112 | 83.0047ms |
+| Diffs |  :zap: 92 | :zap: 38960 | :snail: 17.001ms |
+| *Raw* | 2940 | 154584 | 108.0062ms |
+| Raw | 3053 | 193248 | 127.0073ms |
+| Diffs |  :zap: 113 | :zap: 38664 | :zap: 19.0011ms |
+| *Group* | 127 | 5200 | nothing. |
+| Group | 118 | 5584 | 1ms |
+| Diffs |  :snail: 9 | :zap: 384 | :zap: 1ms |
+| *Joins* | 3776 | 221296 | 48.0028ms |
+| Joins | 4038 | 274632 | 50.0028ms |
+| Diffs |  :zap: 262 | :zap: 53336 | :zap: 2ms |
+| *JoinsWithSelect* | 1213 | 56376 | 32.0018ms |
+| JoinsWithSelect | 1322 | 84896 | 25.0015ms |
+| Diffs |  :zap: 109 | :zap: 28520 | :snail: 7.0003ms |
+| *Having* | 113 | 5712 | 1ms |
+| Having | 195 | 13288 | nothing. |
+| Diffs |  :zap: 82 | :zap: 7576 | :snail: 1ms |
+| *TimeWithZone* | 3908 | 269008 | 66.0038ms |
+| TimeWithZone | 3708 | 282432 | 58.0033ms |
+| Diffs |  :snail: 200 | :zap: 13424 | :snail: 8.0005ms |
+| *Hstore* | 28 | 1136 | nothing. |
+| Hstore | 31 | 1232 | nothing. |
 | Diffs |  :zap: 3 | :zap: 96 | :zzz: |
 | *SetAndGet* | 23 | 1184 | nothing. |
-| SetAndGet | 27 | 1600 | nothing. |
-| Diffs |  :zap: 4 | :zap: 416 | :zzz: |
-| *CompatibilityMode* | 747 | 52632 | 1ms |
+| SetAndGet | 28 | 1808 | nothing. |
+| Diffs |  :zap: 5 | :zap: 624 | :zzz: |
+| *CompatibilityMode* | 747 | 52632 | nothing. |
 | CompatibilityMode | 527 | 35320 | nothing. |
-| Diffs |  :snail: 220 | :snail: 17312 | :snail: 1ms |
-| *OpenExistingDB* | 1170 | 61808 | 65.0037ms |
-| OpenExistingDB | 1111 | 67672 | 75.0043ms |
-| Diffs |  :snail: 59 | :zap: 5864 | :zap: 10.0006ms |
-| *DdlErrors* | 266 | 15176 | 1.0001ms |
-| DdlErrors | 565 | 409640 | nothing. |
-| Diffs |  :zap: 299 | :zap: 394464 | :snail: 1.0001ms |
+| Diffs |  :snail: 220 | :snail: 17312 | :zzz: |
+| *OpenExistingDB* | 1149 | 61200 | 89.0051ms |
+| OpenExistingDB | 1061 | 66792 | 51.003ms |
+| Diffs |  :snail: 88 | :zap: 5592 | :snail: 38.0021ms |
+| *DdlErrors* | 315 | 22136 | 1ms |
+| DdlErrors | 603 | 415560 | 1.0001ms |
+| Diffs |  :zap: 288 | :zap: 393424 | :zap: 100ns |
 | *OpenWithOneParameter* | 20 | 864 | nothing. |
 | OpenWithOneParameter | 23 | 976 | nothing. |
 | Diffs |  :zap: 3 | :zap: 112 | :zzz: |
-| *BelongsTo* | 10599 | 571184 | 523.03ms |
-| BelongsTo | 11525 | 734072 | 682.039ms |
-| Diffs |  :zap: 926 | :zap: 162888 | :zap: 159.009ms |
-| *BelongsToOverrideForeignKey1* | 348 | 16928 | nothing. |
-| BelongsToOverrideForeignKey1 | 341 | 20120 | 1ms |
-| Diffs |  :snail: 7 | :zap: 3192 | :zap: 1ms |
-| *BelongsToOverrideForeignKey2* | 278 | 13800 | nothing. |
+| *BelongsTo* | 10340 | 568152 | 404.0231ms |
+| BelongsTo | 11939 | 1527752 | 418.0239ms |
+| Diffs |  :zap: 1599 | :zap: 959600 | :zap: 14.0008ms |
+| *BelongsToOverrideForeignKey1* | 349 | 16864 | nothing. |
+| BelongsToOverrideForeignKey1 | 341 | 20120 | nothing. |
+| Diffs |  :snail: 8 | :zap: 3256 | :zzz: |
+| *BelongsToOverrideForeignKey2* | 279 | 13624 | nothing. |
 | BelongsToOverrideForeignKey2 | 247 | 17528 | nothing. |
-| Diffs |  :snail: 31 | :zap: 3728 | :zzz: |
-| *HasOne* | 15537 | 842952 | 675.0386ms |
-| HasOne | 15686 | 951984 | 684.0392ms |
-| Diffs |  :zap: 149 | :zap: 109032 | :zap: 9.0006ms |
-| *HasOneOverrideForeignKey1* | 305 | 19992 | nothing. |
+| Diffs |  :snail: 32 | :zap: 3904 | :zzz: |
+| *HasOne* | 15143 | 830160 | 330.0188ms |
+| HasOne | 15245 | 945632 | 346.0198ms |
+| Diffs |  :zap: 102 | :zap: 115472 | :zap: 16.001ms |
+| *HasOneOverrideForeignKey1* | 307 | 20216 | nothing. |
 | HasOneOverrideForeignKey1 | 273 | 18248 | nothing. |
-| Diffs |  :snail: 32 | :snail: 1744 | :zzz: |
-| *HasOneOverrideForeignKey2* | 270 | 13336 | nothing. |
-| HasOneOverrideForeignKey2 | 247 | 17672 | nothing. |
-| Diffs |  :snail: 23 | :zap: 4336 | :zzz: |
-| *HasMany* | 11567 | 647576 | 640.0366ms |
-| Many | 12088 | 811232 | 699.04ms |
-| Diffs |  :zap: 521 | :zap: 163656 | :zap: 59.0034ms |
-| *HasManyOverrideForeignKey1* | 300 | 14912 | nothing. |
+| Diffs |  :snail: 34 | :snail: 1968 | :zzz: |
+| *HasOneOverrideForeignKey2* | 273 | 13576 | nothing. |
+| HasOneOverrideForeignKey2 | 246 | 17464 | nothing. |
+| Diffs |  :snail: 27 | :zap: 3888 | :zzz: |
+| *HasMany* | 11913 | 672392 | 404.0231ms |
+| Many | 12337 | 848800 | 542.031ms |
+| Diffs |  :zap: 424 | :zap: 176408 | :zap: 138.0079ms |
+| *HasManyOverrideForeignKey1* | 302 | 15136 | 1ms |
 | HasManyOverrideForeignKey1 | 269 | 17808 | nothing. |
-| Diffs |  :snail: 31 | :zap: 2896 | :zzz: |
-| *HasManyOverrideForeignKey2* | 267 | 14624 | 1.0001ms |
-| HasManyOverrideForeignKey2 | 243 | 18688 | nothing. |
-| Diffs |  :snail: 24 | :zap: 4064 | :snail: 1.0001ms |
-| *ManyToMany* | 25215 | 1348832 | 1.7921025s |
-| ManyToMany | 27585 | 1717240 | 1.9211098s |
-| Diffs |  :zap: 2370 | :zap: 368408 | :zap: 129.0073ms |
-| *Related* | 7765 | 406344 | 91.0052ms |
-| Related | 7412 | 439096 | 97.0056ms |
-| Diffs |  :snail: 353 | :zap: 32752 | :zap: 6.0004ms |
+| Diffs |  :snail: 33 | :zap: 2672 | :snail: 1ms |
+| *HasManyOverrideForeignKey2* | 269 | 14656 | nothing. |
+| HasManyOverrideForeignKey2 | 250 | 20504 | 1.0001ms |
+| Diffs |  :snail: 19 | :zap: 5848 | :zap: 1.0001ms |
+| *ManyToMany* | 25211 | 1355856 | 1.5550889s |
+| ManyToMany | 27399 | 1727680 | 1.3910795s |
+| Diffs |  :zap: 2188 | :zap: 371824 | :snail: 164.0094ms |
+| *Related* | 7506 | 400200 | 127.0073ms |
+| Related | 7104 | 433768 | 66.0038ms |
+| Diffs |  :snail: 402 | :zap: 33568 | :snail: 61.0035ms |
 | *ForeignKey* | 53 | 4672 | nothing. |
 | ForeignKey | 60 | 6896 | nothing. |
 | Diffs |  :zap: 7 | :zap: 2224 | :zzz: |
-| *LongForeignKey* | 23 | 992 | nothing. |
-| LongForeignKey | 26 | 1056 | nothing. |
-| Diffs |  :zap: 3 | :zap: 64 | :zzz: |
-| *LongForeignKeyWithShortDest* | 23 | 1008 | nothing. |
-| LongForeignKeyWithShortDest | 26 | 1072 | nothing. |
-| Diffs |  :zap: 3 | :zap: 64 | :zzz: |
-| *HasManyChildrenWithOneStruct* | 707 | 31232 | 72.0041ms |
-| HasManyChildrenWithOneStruct | 666 | 43608 | 92.0052ms |
-| Diffs |  :snail: 41 | :zap: 12376 | :zap: 20.0011ms |
-| *RunCallbacks* | 2802 | 134736 | 183.0105ms |
-| RunCallbacks | 2773 | 149272 | 207.0118ms |
-| Diffs |  :snail: 29 | :zap: 14536 | :zap: 24.0013ms |
-| *CallbacksWithErrors* | 5327 | 245112 | 176.0101ms |
-| CallbacksWithErrors | 8801 | 4308408 | 234.0134ms |
-| Diffs |  :zap: 3474 | :zap: 4063296 | :zap: 58.0033ms |
-| *Create* | 2622 | 140536 | 107.0061ms |
-| Create | 2116 | 111824 | 140.008ms |
-| Diffs |  :snail: 506 | :snail: 28712 | :zap: 33.0019ms |
-| *CreateWithAutoIncrement* | 31 | 1744 | nothing. |
-| CreateWithAutoIncrement | 33 | 1792 | nothing. |
-| Diffs |  :zap: 2 | :zap: 48 | :zzz: |
-| *CreateWithNoGORMPrimayKey* | 274 | 11960 | 59.0034ms |
-| CreateWithNoGORMPrimayKey | 279 | 18584 | 57.0033ms |
-| Diffs |  :zap: 5 | :zap: 6624 | :snail: 2.0001ms |
-| *CreateWithNoStdPrimaryKeyAndDefaultValues* | 1092 | 49880 | 127.0072ms |
-| CreateWithNoStdPrimaryKeyAndDefaultValues | 1187 | 75880 | 158.0091ms |
-| Diffs |  :zap: 95 | :zap: 26000 | :zap: 31.0019ms |
-| *AnonymousScanner* | 1151 | 59696 | 58.0033ms |
-| AnonymousScanner | 1097 | 63000 | 76.0043ms |
-| Diffs |  :snail: 54 | :zap: 3304 | :zap: 18.001ms |
-| *AnonymousField* | 1653 | 84680 | 69.004ms |
-| AnonymousField | 1620 | 96472 | 89.0051ms |
-| Diffs |  :snail: 33 | :zap: 11792 | :zap: 20.0011ms |
-| *SelectWithCreate* | 3103 | 150808 | 145.0083ms |
-| SelectWithCreate | 3253 | 205624 | 164.0094ms |
-| Diffs |  :zap: 150 | :zap: 54816 | :zap: 19.0011ms |
-| *OmitWithCreate* | 3285 | 167696 | 120.0068ms |
-| OmitWithCreate | 3423 | 217224 | 163.0093ms |
-| Diffs |  :zap: 138 | :zap: 49528 | :zap: 43.0025ms |
-| *CustomizeColumn* | 903 | 42032 | 307.0176ms |
-| CustomizeColumn | 861 | 59328 | 323.0184ms |
-| Diffs |  :snail: 42 | :zap: 17296 | :zap: 16.0008ms |
-| *CustomColumnAndIgnoredFieldClash* | 161 | 13896 | 150.0086ms |
-| CustomColumnAndIgnoredFieldClash | 160 | 10488 | 150.0086ms |
-| Diffs |  :snail: 1 | :snail: 3408 | :zzz: |
-| *ManyToManyWithCustomizedColumn* | 1688 | 77184 | 651.0372ms |
-| ManyToManyWithCustomizedColumn | 2082 | 138920 | 656.0375ms |
-| Diffs |  :zap: 394 | :zap: 61736 | :zap: 5.0003ms |
-| *OneToOneWithCustomizedColumn* | 1575 | 74960 | 584.0334ms |
-| OneToOneWithCustomizedColumn | 1563 | 98152 | 675.0386ms |
-| Diffs |  :snail: 12 | :zap: 23192 | :zap: 91.0052ms |
-| *OneToManyWithCustomizedColumn* | 3367 | 167616 | 517.0296ms |
-| OneToManyWithCustomizedColumn | 3510 | 217408 | 625.0357ms |
-| Diffs |  :zap: 143 | :zap: 49792 | :zap: 108.0061ms |
-| *HasOneWithPartialCustomizedColumn* | 2318 | 113488 | 582.0333ms |
-| HasOneWithPartialCustomizedColumn | 2447 | 148472 | 651.0372ms |
-| Diffs |  :zap: 129 | :zap: 34984 | :zap: 69.0039ms |
-| *BelongsToWithPartialCustomizedColumn* | 2550 | 127208 | 569.0325ms |
-| BelongsToWithPartialCustomizedColumn | 2691 | 166624 | 689.0394ms |
-| Diffs |  :zap: 141 | :zap: 39416 | :zap: 120.0069ms |
-| *Delete* | 2298 | 120752 | 216.0124ms |
-| Delete | 2181 | 126608 | 223.0128ms |
-| Diffs |  :snail: 117 | :zap: 5856 | :zap: 7.0004ms |
-| *InlineDelete* | 2316 | 121584 | 260.0148ms |
-| InlineDelete | 2303 | 136744 | 298.0171ms |
-| Diffs |  :snail: 13 | :zap: 15160 | :zap: 38.0023ms |
-| *SoftDelete* | 1042 | 42584 | 234.0134ms |
-| SoftDelete | 1282 | 78184 | 274.0157ms |
-| Diffs |  :zap: 240 | :zap: 35600 | :zap: 40.0023ms |
-| *PrefixColumnNameForEmbeddedStruct* | 435 | 19920 | 1ms |
-| PrefixColumnNameForEmbeddedStruct | 424 | 30952 | nothing. |
-| Diffs |  :snail: 11 | :zap: 11032 | :snail: 1ms |
-| *SaveAndQueryEmbeddedStruct* | 1288 | 52304 | 185.0106ms |
-| SaveAndQueryEmbeddedStruct | 1368 | 71312 | 282.0162ms |
-| Diffs |  :zap: 80 | :zap: 19008 | :zap: 97.0056ms |
-| *CalculateField* | 493 | 24968 | 1ms |
-| CalculateField | 450 | 31544 | nothing. |
-| Diffs |  :snail: 43 | :zap: 6576 | :snail: 1ms |
-| *JoinTable* | 4055 | 202176 | 507.029ms |
-| JoinTable | 4326 | 284128 | 515.0295ms |
-| Diffs |  :zap: 271 | :zap: 81952 | :zap: 8.0005ms |
-| *Indexes* | 8220 | 392256 | 713.0408ms |
-| Indexes | 9815 | 3085472 | 1.1130636s |
-| Diffs |  :zap: 1595 | :zap: 2693216 | :zap: 400.0228ms |
-| *AutoMigration* | 1347 | 52824 | 330.0189ms |
-| AutoMigration | 1345 | 59680 | 462.0264ms |
-| Diffs |  :snail: 2 | :zap: 6856 | :zap: 132.0075ms |
-| *MultipleIndexes* | 2438 | 101744 | 812.0464ms |
-| MultipleIndexes | 3086 | 939360 | 878.0502ms |
-| Diffs |  :zap: 648 | :zap: 837616 | :zap: 66.0038ms |
-| *ManyToManyWithMultiPrimaryKeys* | 22 | 1040 | nothing. |
-| ManyToManyWithMultiPrimaryKeys | 25 | 1136 | nothing. |
-| Diffs |  :zap: 3 | :zap: 96 | :zzz: |
-| *ManyToManyWithCustomizedForeignKeys* | 22 | 1056 | nothing. |
-| ManyToManyWithCustomizedForeignKeys | 25 | 1152 | nothing. |
-| Diffs |  :zap: 3 | :zap: 96 | :zzz: |
-| *ManyToManyWithCustomizedForeignKeys2* | 22 | 1056 | 1.0001ms |
-| ManyToManyWithCustomizedForeignKeys2 | 25 | 1152 | nothing. |
-| Diffs |  :zap: 3 | :zap: 96 | :snail: 1.0001ms |
-| *PointerFields* | 2046 | 82856 | 398.0227ms |
-| PointerFields | 2562 | 156488 | 508.029ms |
-| Diffs |  :zap: 516 | :zap: 73632 | :zap: 110.0063ms |
-| *Polymorphic* | 17034 | 868336 | 1.1570662s |
-| Polymorphic | 23325 | 1611192 | 1.5580891s |
-| Diffs |  :zap: 6291 | :zap: 742856 | :zap: 401.0229ms |
-| *NamedPolymorphic* | 11499 | 626368 | 978.056ms |
-| NamedPolymorphic | 16185 | 1130040 | 1.1220642s |
-| Diffs |  :zap: 4686 | :zap: 503672 | :zap: 144.0082ms |
-| *Preload* | 22326 | 1072608 | 386.022ms |
-| Preload | 22744 | 1309208 | 437.025ms |
-| Diffs |  :zap: 418 | :zap: 236600 | :zap: 51.003ms |
-| *NestedPreload1* | 1760 | 116008 | 495.0284ms |
-| NestedPreload1 | 1958 | 124472 | 642.0367ms |
-| Diffs |  :zap: 198 | :zap: 8464 | :zap: 147.0083ms |
-| *NestedPreload2* | 2215 | 93432 | 574.0328ms |
-| NestedPreload2 | 2389 | 144536 | 759.0434ms |
-| Diffs |  :zap: 174 | :zap: 51104 | :zap: 185.0106ms |
-| *NestedPreload3* | 1978 | 90344 | 458.0262ms |
-| NestedPreload3 | 2146 | 132192 | 634.0363ms |
-| Diffs |  :zap: 168 | :zap: 41848 | :zap: 176.0101ms |
-| *NestedPreload4* | 1758 | 74464 | 549.0314ms |
-| NestedPreload4 | 1917 | 120624 | 601.0344ms |
-| Diffs |  :zap: 159 | :zap: 46160 | :zap: 52.003ms |
-| *NestedPreload5* | 2194 | 90312 | 629.0359ms |
-| NestedPreload5 | 2376 | 143496 | 903.0517ms |
-| Diffs |  :zap: 182 | :zap: 53184 | :zap: 274.0158ms |
-| *NestedPreload6* | 3475 | 140488 | 633.0362ms |
-| NestedPreload6 | 3688 | 220792 | 783.0447ms |
-| Diffs |  :zap: 213 | :zap: 80304 | :zap: 150.0085ms |
-| *NestedPreload7* | 3077 | 127976 | 744.0426ms |
-| NestedPreload7 | 3290 | 191320 | 697.0398ms |
-| Diffs |  :zap: 213 | :zap: 63344 | :snail: 47.0028ms |
-| *NestedPreload8* | 2614 | 106328 | 566.0324ms |
-| NestedPreload8 | 2807 | 166872 | 734.042ms |
-| Diffs |  :zap: 193 | :zap: 60544 | :zap: 168.0096ms |
-| *NestedPreload9* | 5991 | 251696 | 841.0481ms |
-| NestedPreload9 | 6275 | 383168 | 1.084062s |
-| Diffs |  :zap: 284 | :zap: 131472 | :zap: 243.0139ms |
-| *NestedPreload10* | 2111 | 105112 | 671.0384ms |
-| NestedPreload10 | 2261 | 133008 | 869.0497ms |
-| Diffs |  :zap: 150 | :zap: 27896 | :zap: 198.0113ms |
-| *NestedPreload11* | 1808 | 77528 | 686.0393ms |
-| NestedPreload11 | 2020 | 123064 | 731.0418ms |
-| Diffs |  :zap: 212 | :zap: 45536 | :zap: 45.0025ms |
-| *NestedPreload12* | 2491 | 117360 | 655.0375ms |
-| NestedPreload12 | 2689 | 158880 | 834.0477ms |
-| Diffs |  :zap: 198 | :zap: 41520 | :zap: 179.0102ms |
-| *ManyToManyPreloadWithMultiPrimaryKeys* | 24 | 14832 | nothing. |
-| ManyToManyPreloadWithMultiPrimaryKeys | 25 | 1152 | nothing. |
-| Diffs |  :zap: 1 | :snail: 13680 | :zzz: |
-| *ManyToManyPreloadForNestedPointer* | 6491 | 285848 | 716.041ms |
-| ManyToManyPreloadForNestedPointer | 8603 | 544704 | 970.0555ms |
-| Diffs |  :zap: 2112 | :zap: 258856 | :zap: 254.0145ms |
-| *NestedManyToManyPreload* | 4159 | 182672 | 864.0494ms |
-| NestedManyToManyPreload | 5374 | 365400 | 1.0170582s |
-| Diffs |  :zap: 1215 | :zap: 182728 | :zap: 153.0088ms |
-| *NestedManyToManyPreload2* | 2646 | 120752 | 616.0353ms |
-| NestedManyToManyPreload2 | 3319 | 215928 | 775.0443ms |
-| Diffs |  :zap: 673 | :zap: 95176 | :zap: 159.009ms |
-| *NestedManyToManyPreload3* | 4437 | 190224 | 741.0424ms |
-| NestedManyToManyPreload3 | 5402 | 350392 | 959.0548ms |
-| Diffs |  :zap: 965 | :zap: 160168 | :zap: 218.0124ms |
-| *NestedManyToManyPreload3ForStruct* | 4653 | 199136 | 888.0508ms |
-| NestedManyToManyPreload3ForStruct | 5632 | 360880 | 1.0770616s |
-| Diffs |  :zap: 979 | :zap: 161744 | :zap: 189.0108ms |
-| *NestedManyToManyPreload4* | 3471 | 151360 | 1.1220642s |
-| NestedManyToManyPreload4 | 4212 | 294056 | 1.0950626s |
-| Diffs |  :zap: 741 | :zap: 142696 | :snail: 27.0016ms |
-| *ManyToManyPreloadForPointer* | 4836 | 224896 | 606.0347ms |
-| ManyToManyPreloadForPointer | 6613 | 430072 | 720.0411ms |
-| Diffs |  :zap: 1777 | :zap: 205176 | :zap: 114.0064ms |
-| *NilPointerSlice* | 1847 | 76504 | 556.0318ms |
-| NilPointerSlice | 1996 | 120296 | 733.0419ms |
-| Diffs |  :zap: 149 | :zap: 43792 | :zap: 177.0101ms |
-| *NilPointerSlice2* | 1714 | 74848 | 822.047ms |
-| NilPointerSlice2 | 1847 | 125264 | 985.0564ms |
-| Diffs |  :zap: 133 | :zap: 50416 | :zap: 163.0094ms |
-| *PrefixedPreloadDuplication* | 4024 | 164792 | 1.0650609s |
-| PrefixedPreloadDuplication | 4306 | 253616 | 1.2530717s |
-| Diffs |  :zap: 282 | :zap: 88824 | :zap: 188.0108ms |
-| *FirstAndLast* | 4609 | 244120 | 178.0102ms |
-| FirstAndLast | 3911 | 217288 | 223.0127ms |
-| Diffs |  :snail: 698 | :snail: 26832 | :zap: 45.0025ms |
-| *FirstAndLastWithNoStdPrimaryKey* | 1549 | 72208 | 132.0076ms |
-| FirstAndLastWithNoStdPrimaryKey | 1582 | 96160 | 150.0085ms |
-| Diffs |  :zap: 33 | :zap: 23952 | :zap: 18.0009ms |
-| *UIntPrimaryKey* | 566 | 28352 | 1.0001ms |
-| UIntPrimaryKey | 485 | 28600 | nothing. |
-| Diffs |  :snail: 81 | :zap: 248 | :snail: 1.0001ms |
-| *StringPrimaryKeyForNumericValueStartingWithZero* | 493 | 20512 | 1.0001ms |
-| StringPrimaryKeyForNumericValueStartingWithZero | 921 | 431088 | 1ms |
-| Diffs |  :zap: 428 | :zap: 410576 | :snail: 100ns |
-| *FindAsSliceOfPointers* | 20581 | 1289328 | 85.0049ms |
-| FindAsSliceOfPointers | 15639 | 895632 | 98.0056ms |
-| Diffs |  :snail: 4942 | :snail: 393696 | :zap: 13.0007ms |
-| *SearchWithPlainSQL* | 10386 | 656952 | 238.0136ms |
-| SearchWithPlainSQL | 10104 | 654008 | 270.0154ms |
-| Diffs |  :snail: 282 | :snail: 2944 | :zap: 32.0018ms |
-| *SearchWithStruct* | 7624 | 434928 | 232.0133ms |
-| SearchWithStruct | 6312 | 353128 | 258.0148ms |
-| Diffs |  :snail: 1312 | :snail: 81800 | :zap: 26.0015ms |
-| *SearchWithMap* | 6148 | 337976 | 313.0179ms |
-| SearchWithMap | 5297 | 309728 | 354.0202ms |
-| Diffs |  :snail: 851 | :snail: 28248 | :zap: 41.0023ms |
-| *SearchWithEmptyChain* | 4177 | 225920 | 224.0128ms |
-| SearchWithEmptyChain | 3984 | 234480 | 225.0129ms |
-| Diffs |  :snail: 193 | :zap: 8560 | :zap: 1.0001ms |
-| *Select* | 1054 | 55656 | 71.0041ms |
-| Select | 1006 | 58160 | 70.004ms |
-| Diffs |  :snail: 48 | :zap: 2504 | :snail: 1.0001ms |
-| *OrderAndPluck* | 15447 | 957744 | 229.0131ms |
-| OrderAndPluck | 12060 | 702216 | 240.0137ms |
-| Diffs |  :snail: 3387 | :snail: 255528 | :zap: 11.0006ms |
-| *Limit* | 20281 | 1357360 | 356.0204ms |
-| Limit | 15886 | 1042904 | 386.022ms |
-| Diffs |  :snail: 4395 | :snail: 314456 | :zap: 30.0016ms |
-| *Offset* | 88228 | 5791144 | 1.3240757s |
-| Offset | 68949 | 4363736 | 1.626093s |
-| Diffs |  :snail: 19279 | :snail: 1427408 | :zap: 302.0173ms |
-| *Or* | 2509 | 153152 | 212.0121ms |
-| Or | 2436 | 148552 | 242.0139ms |
-| Diffs |  :snail: 73 | :snail: 4600 | :zap: 30.0018ms |
-| *Count* | 3248 | 176728 | 225.0128ms |
-| Count | 3423 | 208792 | 242.0139ms |
-| Diffs |  :zap: 175 | :zap: 32064 | :zap: 17.0011ms |
-| *Not* | 22104 | 1189368 | 598.0342ms |
-| Not | 21565 | 1529808 | 571.0326ms |
-| Diffs |  :snail: 539 | :zap: 340440 | :snail: 27.0016ms |
-| *FillSmallerStruct* | 912 | 42584 | 55.0032ms |
-| FillSmallerStruct | 958 | 56112 | 75.0043ms |
-| Diffs |  :zap: 46 | :zap: 13528 | :zap: 20.0011ms |
-| *FindOrInitialize* | 7206 | 408664 | 55.0031ms |
-| FindOrInitialize | 5244 | 276768 | 111.0064ms |
-| Diffs |  :snail: 1962 | :snail: 131896 | :zap: 56.0033ms |
-| *FindOrCreate* | 11997 | 646736 | 506.0289ms |
-| FindOrCreate | 10423 | 1332888 | 494.0282ms |
-| Diffs |  :snail: 1574 | :zap: 686152 | :snail: 12.0007ms |
-| *SelectWithEscapedFieldName* | 2263 | 117296 | 177.0102ms |
-| SelectWithEscapedFieldName | 2053 | 122264 | 230.0132ms |
-| Diffs |  :snail: 210 | :zap: 4968 | :zap: 53.003ms |
-| *SelectWithVariables* | 684 | 34160 | 61.0035ms |
-| SelectWithVariables | 655 | 39416 | 80.0045ms |
-| Diffs |  :snail: 29 | :zap: 5256 | :zap: 19.001ms |
-| *FirstAndLastWithRaw* | 2663 | 135904 | 150.0086ms |
-| FirstAndLastWithRaw | 2548 | 147936 | 208.0119ms |
-| Diffs |  :snail: 115 | :zap: 12032 | :zap: 58.0033ms |
-| *ScannableSlices* | 2948 | 144560 | 80.0045ms |
-| ScannableSlices | 996 | 51656 | 78.0045ms |
-| Diffs |  :snail: 1952 | :snail: 92904 | :snail: 2ms |
-| *Scopes* | 3642 | 204256 | 184.0105ms |
-| Scopes | 3462 | 209200 | 231.0132ms |
-| Diffs |  :snail: 180 | :zap: 4944 | :zap: 47.0027ms |
-| *Update* | 6851 | 322880 | 492.0281ms |
-| Update | 6502 | 346752 | 574.0329ms |
-| Diffs |  :snail: 349 | :zap: 23872 | :zap: 82.0048ms |
-| *UpdateWithNoStdPrimaryKeyAndDefaultValues* | 2992 | 134448 | 518.0296ms |
-| UpdateWithNoStdPrimaryKeyAndDefaultValues | 3012 | 169560 | 607.0347ms |
-| Diffs |  :zap: 20 | :zap: 35112 | :zap: 89.0051ms |
-| *Updates* | 4788 | 217952 | 318.0182ms |
-| Updates | 4599 | 241288 | 332.019ms |
-| Diffs |  :snail: 189 | :zap: 23336 | :zap: 14.0008ms |
-| *UpdateColumn* | 3265 | 149912 | 305.0174ms |
-| UpdateColumn | 2849 | 145768 | 345.0198ms |
-| Diffs |  :snail: 416 | :snail: 4144 | :zap: 40.0024ms |
-| *SelectWithUpdate* | 7174 | 341664 | 222.0127ms |
-| SelectWithUpdate | 7263 | 443160 | 305.0174ms |
-| Diffs |  :zap: 89 | :zap: 101496 | :zap: 83.0047ms |
-| *SelectWithUpdateWithMap* | 7210 | 345048 | 247.0142ms |
-| SelectWithUpdateWithMap | 7287 | 442960 | 286.0163ms |
-| Diffs |  :zap: 77 | :zap: 97912 | :zap: 39.0021ms |
-| *OmitWithUpdate* | 6039 | 292464 | 246.0141ms |
-| OmitWithUpdate | 6123 | 371912 | 262.015ms |
-| Diffs |  :zap: 84 | :zap: 79448 | :zap: 16.0009ms |
-| *OmitWithUpdateWithMap* | 5878 | 287568 | 182.0104ms |
-| OmitWithUpdateWithMap | 5979 | 366464 | 209.012ms |
-| Diffs |  :zap: 101 | :zap: 78896 | :zap: 27.0016ms |
-| *SelectWithUpdateColumn* | 4392 | 213008 | 174.0099ms |
-| SelectWithUpdateColumn | 4072 | 240536 | 192.011ms |
-| Diffs |  :snail: 320 | :zap: 27528 | :zap: 18.0011ms |
-| *OmitWithUpdateColumn* | 4393 | 213584 | 158.0091ms |
-| OmitWithUpdateColumn | 4067 | 240088 | 175.01ms |
-| Diffs |  :snail: 326 | :zap: 26504 | :zap: 17.0009ms |
-| *UpdateColumnsSkipsAssociations* | 4328 | 208096 | 258.0147ms |
-| UpdateColumnsSkipsAssociations | 4044 | 237448 | 249.0142ms |
-| Diffs |  :snail: 284 | :zap: 29352 | :snail: 9.0005ms |
-| *UpdatesWithBlankValues* | 1289 | 61840 | 142.0082ms |
-| UpdatesWithBlankValues | 1124 | 58648 | 174.0099ms |
-| Diffs |  :snail: 165 | :snail: 3192 | :zap: 32.0017ms |
-| *UpdatesTableWithIgnoredValues* | 435 | 16728 | 126.0072ms |
-| UpdatesTableWithIgnoredValues | 527 | 27680 | 157.009ms |
-| Diffs |  :zap: 92 | :zap: 10952 | :zap: 31.0018ms |
-| *UpdateDecodeVirtualAttributes* | 1045 | 54264 | 126.0072ms |
-| UpdateDecodeVirtualAttributes | 929 | 51008 | 141.0081ms |
-| Diffs |  :snail: 116 | :snail: 3256 | :zap: 15.0009ms |
+| *LongForeignKey* | 304 | 52808 | 1.4300818s |
+| LongForeignKey | 366 | 102768 | 566.0324ms |
+| Diffs |  :zap: 62 | :zap: 49960 | :snail: 864.0494ms |
+| *LongForeignKeyWithShortDest* | 268 | 11312 | 524.0299ms |
+| LongForeignKeyWithShortDest | 342 | 101728 | 624.0357ms |
+| Diffs |  :zap: 74 | :zap: 90416 | :zap: 100.0058ms |
+| *HasManyChildrenWithOneStruct* | 686 | 29152 | 50.0028ms |
+| HasManyChildrenWithOneStruct | 640 | 43000 | 41.0023ms |
+| Diffs |  :snail: 46 | :zap: 13848 | :snail: 9.0005ms |
+| *RunCallbacks* | 2703 | 133984 | 109.0063ms |
+| RunCallbacks | 2643 | 148376 | 191.0109ms |
+| Diffs |  :snail: 60 | :zap: 14392 | :zap: 82.0046ms |
+| *CallbacksWithErrors* | 5174 | 242608 | 208.0119ms |
+| CallbacksWithErrors | 8577 | 4306136 | 166.0095ms |
+| Diffs |  :zap: 3403 | :zap: 4063528 | :snail: 42.0024ms |
+| *Create* | 2537 | 137192 | 79.0045ms |
+| Create | 2016 | 110560 | 163.0094ms |
+| Diffs |  :snail: 521 | :snail: 26632 | :zap: 84.0049ms |
+| *CreateWithAutoIncrement* | 31 | 1728 | 1ms |
+| CreateWithAutoIncrement | 34 | 1824 | nothing. |
+| Diffs |  :zap: 3 | :zap: 96 | :snail: 1ms |
+| *CreateWithNoGORMPrimayKey* | 256 | 11432 | 83.0048ms |
+| CreateWithNoGORMPrimayKey | 267 | 18376 | 86.0049ms |
+| Diffs |  :zap: 11 | :zap: 6944 | :zap: 3.0001ms |
+| *CreateWithNoStdPrimaryKeyAndDefaultValues* | 1019 | 46552 | 172.0099ms |
+| CreateWithNoStdPrimaryKeyAndDefaultValues | 1123 | 74184 | 197.0112ms |
+| Diffs |  :zap: 104 | :zap: 27632 | :zap: 25.0013ms |
+| *AnonymousScanner* | 1129 | 58912 | 31.0018ms |
+| AnonymousScanner | 1048 | 62376 | 78.0045ms |
+| Diffs |  :snail: 81 | :zap: 3464 | :zap: 47.0027ms |
+| *AnonymousField* | 1622 | 84296 | 459.0262ms |
+| AnonymousField | 1562 | 95784 | 499.0286ms |
+| Diffs |  :snail: 60 | :zap: 11488 | :zap: 40.0024ms |
+| *SelectWithCreate* | 3108 | 151104 | 233.0134ms |
+| SelectWithCreate | 3250 | 214576 | 209.0119ms |
+| Diffs |  :zap: 142 | :zap: 63472 | :snail: 24.0015ms |
+| *OmitWithCreate* | 3197 | 164544 | 58.0033ms |
+| OmitWithCreate | 3303 | 215992 | 100.0057ms |
+| Diffs |  :zap: 106 | :zap: 51448 | :zap: 42.0024ms |
+| *CustomizeColumn* | 872 | 37392 | 340.0195ms |
+| CustomizeColumn | 1227 | 461048 | 275.0157ms |
+| Diffs |  :zap: 355 | :zap: 423656 | :snail: 65.0038ms |
+| *CustomColumnAndIgnoredFieldClash* | 193 | 15352 | 199.0114ms |
+| CustomColumnAndIgnoredFieldClash | 542 | 409768 | 242.0138ms |
+| Diffs |  :zap: 349 | :zap: 394416 | :zap: 43.0024ms |
+| *ManyToManyWithCustomizedColumn* | 1588 | 74224 | 842.0482ms |
+| ManyToManyWithCustomizedColumn | 2580 | 549488 | 2.150123s |
+| Diffs |  :zap: 992 | :zap: 475264 | :zap: 1.3080748s |
+| *OneToOneWithCustomizedColumn* | 1591 | 74256 | 875.05ms |
+| OneToOneWithCustomizedColumn | 1920 | 497032 | 954.0546ms |
+| Diffs |  :zap: 329 | :zap: 422776 | :zap: 79.0046ms |
+| *OneToManyWithCustomizedColumn* | 3340 | 165152 | 946.0541ms |
+| OneToManyWithCustomizedColumn | 3817 | 614560 | 1.0170582s |
+| Diffs |  :zap: 477 | :zap: 449408 | :zap: 71.0041ms |
+| *HasOneWithPartialCustomizedColumn* | 2295 | 111648 | 1.2830733s |
+| HasOneWithPartialCustomizedColumn | 2760 | 546040 | 842.0482ms |
+| Diffs |  :zap: 465 | :zap: 434392 | :snail: 441.0251ms |
+| *BelongsToWithPartialCustomizedColumn* | 2521 | 124248 | 1.2660724s |
+| BelongsToWithPartialCustomizedColumn | 3001 | 563968 | 1.2070691s |
+| Diffs |  :zap: 480 | :zap: 439720 | :snail: 59.0033ms |
+| *Delete* | 2268 | 119312 | 176.01ms |
+| Delete | 2101 | 125888 | 185.0106ms |
+| Diffs |  :snail: 167 | :zap: 6576 | :zap: 9.0006ms |
+| *InlineDelete* | 2309 | 121664 | 704.0402ms |
+| InlineDelete | 2242 | 137064 | 288.0165ms |
+| Diffs |  :snail: 67 | :zap: 15400 | :snail: 416.0237ms |
+| *SoftDelete* | 985 | 41272 | 1.3960799s |
+| SoftDelete | 1237 | 78336 | 492.0281ms |
+| Diffs |  :zap: 252 | :zap: 37064 | :snail: 904.0518ms |
+| *PrefixColumnNameForEmbeddedStruct* | 458 | 20400 | 6.0003ms |
+| PrefixColumnNameForEmbeddedStruct | 448 | 31672 | 5.0003ms |
+| Diffs |  :snail: 10 | :zap: 11272 | :snail: 1ms |
+| *SaveAndQueryEmbeddedStruct* | 1217 | 48624 | 239.0137ms |
+| SaveAndQueryEmbeddedStruct | 1296 | 70672 | 183.0105ms |
+| Diffs |  :zap: 79 | :zap: 22048 | :snail: 56.0032ms |
+| *CalculateField* | 495 | 28504 | 1ms |
+| CalculateField | 451 | 34872 | nothing. |
+| Diffs |  :snail: 44 | :zap: 6368 | :snail: 1ms |
+| *JoinTable* | 2951 | 160248 | 459.0263ms |
+| JoinTable | 4602 | 594792 | 1.4640837s |
+| Diffs |  :zap: 1651 | :zap: 434544 | :zap: 1.0050574s |
+| *Indexes* | 8994 | 426960 | 1.7010973s |
+| Indexes | 10780 | 3156624 | 2.0491172s |
+| Diffs |  :zap: 1786 | :zap: 2729664 | :zap: 348.0199ms |
+| *AutoMigration* | 1444 | 62600 | 2.2101264s |
+| AutoMigration | 1434 | 62800 | 1.2330706s |
+| Diffs |  :snail: 10 | :zap: 200 | :snail: 977.0558ms |
+| *MultipleIndexes* | 2521 | 102816 | 1.644094s |
+| MultipleIndexes | 3138 | 927128 | 2.7291561s |
+| Diffs |  :zap: 617 | :zap: 824312 | :zap: 1.0850621s |
+| *ManyToManyWithMultiPrimaryKeys* | 8870 | 441600 | 1.6590949s |
+| ManyToManyWithMultiPrimaryKeys | 13149 | 1622904 | 1.783102s |
+| Diffs |  :zap: 4279 | :zap: 1181304 | :zap: 124.0071ms |
+| *ManyToManyWithCustomizedForeignKeys* | 10364 | 536704 | 1.3750786s |
+| ManyToManyWithCustomizedForeignKeys | 14262 | 960176 | 2.5861479s |
+| Diffs |  :zap: 3898 | :zap: 423472 | :zap: 1.2110693s |
+| *ManyToManyWithCustomizedForeignKeys2* | 13998 | 734688 | 1.5560891s |
+| ManyToManyWithCustomizedForeignKeys2 | 19582 | 1314992 | 2.3661353s |
+| Diffs |  :zap: 5584 | :zap: 580304 | :zap: 810.0462ms |
+| *PointerFields* | 1947 | 77656 | 483.0276ms |
+| PointerFields | 2854 | 554888 | 409.0234ms |
+| Diffs |  :zap: 907 | :zap: 477232 | :snail: 74.0042ms |
+| *Polymorphic* | 18023 | 913672 | 857.049ms |
+| Polymorphic | 24242 | 1695944 | 699.04ms |
+| Diffs |  :zap: 6219 | :zap: 782272 | :snail: 158.009ms |
+| *NamedPolymorphic* | 11136 | 614288 | 649.0372ms |
+| NamedPolymorphic | 15834 | 1123960 | 609.0348ms |
+| Diffs |  :zap: 4698 | :zap: 509672 | :snail: 40.0024ms |
+| *Preload* | 21755 | 1053280 | 1.4310818s |
+| Preload | 21985 | 1314776 | 367.021ms |
+| Diffs |  :zap: 230 | :zap: 261496 | :snail: 1.0640608s |
+| *NestedPreload1* | 1714 | 113112 | 694.0397ms |
+| NestedPreload1 | 1911 | 139352 | 717.041ms |
+| Diffs |  :zap: 197 | :zap: 26240 | :zap: 23.0013ms |
+| *NestedPreload2* | 2218 | 91688 | 986.0564ms |
+| NestedPreload2 | 2391 | 154264 | 1.1450655s |
+| Diffs |  :zap: 173 | :zap: 62576 | :zap: 159.0091ms |
+| *NestedPreload3* | 1991 | 83352 | 2.2861308s |
+| NestedPreload3 | 2152 | 133360 | 1.2790732s |
+| Diffs |  :zap: 161 | :zap: 50008 | :snail: 1.0070576s |
+| *NestedPreload4* | 1779 | 76064 | 1.3180753s |
+| NestedPreload4 | 1926 | 121680 | 1.1340649s |
+| Diffs |  :zap: 147 | :zap: 45616 | :snail: 184.0104ms |
+| *NestedPreload5* | 2200 | 91640 | 1.9621122s |
+| NestedPreload5 | 2371 | 144232 | 1.188068s |
+| Diffs |  :zap: 171 | :zap: 52592 | :snail: 774.0442ms |
+| *NestedPreload6* | 3420 | 145176 | 942.0539ms |
+| NestedPreload6 | 3643 | 216696 | 1.1340648s |
+| Diffs |  :zap: 223 | :zap: 71520 | :zap: 192.0109ms |
+| *NestedPreload7* | 3047 | 129000 | 1.1330649s |
+| NestedPreload7 | 3262 | 192072 | 1.2180696s |
+| Diffs |  :zap: 215 | :zap: 63072 | :zap: 85.0047ms |
+| *NestedPreload8* | 2596 | 107144 | 1.7571005s |
+| NestedPreload8 | 2789 | 168040 | 941.0538ms |
+| Diffs |  :zap: 193 | :zap: 60896 | :snail: 816.0467ms |
+| *NestedPreload9* | 5912 | 266176 | 1.4090806s |
+| NestedPreload9 | 6189 | 361904 | 2.1541232s |
+| Diffs |  :zap: 277 | :zap: 95728 | :zap: 745.0426ms |
+| *NestedPreload10* | 2185 | 90336 | 1.2740728s |
+| NestedPreload10 | 2336 | 137736 | 663.038ms |
+| Diffs |  :zap: 151 | :zap: 47400 | :snail: 611.0348ms |
+| *NestedPreload11* | 1718 | 73608 | 798.0456ms |
+| NestedPreload11 | 2197 | 143928 | 743.0425ms |
+| Diffs |  :zap: 479 | :zap: 70320 | :snail: 55.0031ms |
+| *NestedPreload12* | 3072 | 142064 | 625.0357ms |
+| NestedPreload12 | 3256 | 204416 | 811.0464ms |
+| Diffs |  :zap: 184 | :zap: 62352 | :zap: 186.0107ms |
+| *ManyToManyPreloadWithMultiPrimaryKeys* | 5813 | 282152 | 994.0569ms |
+| ManyToManyPreloadWithMultiPrimaryKeys | 7862 | 511400 | 1.2100692s |
+| Diffs |  :zap: 2049 | :zap: 229248 | :zap: 216.0123ms |
+| *ManyToManyPreloadForNestedPointer* | 6210 | 279192 | 1.4490829s |
+| ManyToManyPreloadForNestedPointer | 8488 | 543960 | 2.658152s |
+| Diffs |  :zap: 2278 | :zap: 264768 | :zap: 1.2090691s |
+| *NestedManyToManyPreload* | 3775 | 170304 | 1.6140923s |
+| NestedManyToManyPreload | 5379 | 358376 | 1.5660896s |
+| Diffs |  :zap: 1604 | :zap: 188072 | :snail: 48.0027ms |
+| *NestedManyToManyPreload2* | 2500 | 109920 | 1.7340992s |
+| NestedManyToManyPreload2 | 3358 | 218776 | 3.3151896s |
+| Diffs |  :zap: 858 | :zap: 108856 | :zap: 1.5810904s |
+| *NestedManyToManyPreload3* | 4831 | 212016 | 1.7501001s |
+| NestedManyToManyPreload3 | 5987 | 397272 | 2.3501344s |
+| Diffs |  :zap: 1156 | :zap: 185256 | :zap: 600.0343ms |
+| *NestedManyToManyPreload3ForStruct* | 4719 | 206944 | 1.5840906s |
+| NestedManyToManyPreload3ForStruct | 5894 | 384672 | 1.6910967s |
+| Diffs |  :zap: 1175 | :zap: 177728 | :zap: 107.0061ms |
+| *NestedManyToManyPreload4* | 3161 | 152032 | 2.0421168s |
+| NestedManyToManyPreload4 | 4287 | 293608 | 2.3081321s |
+| Diffs |  :zap: 1126 | :zap: 141576 | :zap: 266.0153ms |
+| *ManyToManyPreloadForPointer* | 4561 | 206912 | 2.4931426s |
+| ManyToManyPreloadForPointer | 6537 | 431208 | 1.3170753s |
+| Diffs |  :zap: 1976 | :zap: 224296 | :snail: 1.1760673s |
+| *NilPointerSlice* | 1858 | 77912 | 2.2311276s |
+| NilPointerSlice | 1999 | 121800 | 1.0690612s |
+| Diffs |  :zap: 141 | :zap: 43888 | :snail: 1.1620664s |
+| *NilPointerSlice2* | 1747 | 75792 | 1.9161096s |
+| NilPointerSlice2 | 2138 | 142192 | 1.7260987s |
+| Diffs |  :zap: 391 | :zap: 66400 | :snail: 190.0109ms |
+| *PrefixedPreloadDuplication* | 4995 | 207928 | 2.6861537s |
+| PrefixedPreloadDuplication | 5254 | 323136 | 2.3921368s |
+| Diffs |  :zap: 259 | :zap: 115208 | :snail: 294.0169ms |
+| *FirstAndLast* | 4485 | 242488 | 110.0063ms |
+| FirstAndLast | 3735 | 217176 | 83.0047ms |
+| Diffs |  :snail: 750 | :snail: 25312 | :snail: 27.0016ms |
+| *FirstAndLastWithNoStdPrimaryKey* | 1425 | 67168 | 73.0042ms |
+| FirstAndLastWithNoStdPrimaryKey | 1466 | 93632 | 143.0082ms |
+| Diffs |  :zap: 41 | :zap: 26464 | :zap: 70.004ms |
+| *UIntPrimaryKey* | 511 | 25136 | 1ms |
+| UIntPrimaryKey | 440 | 27480 | nothing. |
+| Diffs |  :snail: 71 | :zap: 2344 | :snail: 1ms |
+| *StringPrimaryKeyForNumericValueStartingWithZero* | 413 | 16816 | 356.0204ms |
+| StringPrimaryKeyForNumericValueStartingWithZero | 522 | 32496 | 207.0118ms |
+| Diffs |  :zap: 109 | :zap: 15680 | :snail: 149.0086ms |
+| *FindAsSliceOfPointers* | 20617 | 1290800 | 28.0016ms |
+| FindAsSliceOfPointers | 15636 | 895152 | 17.001ms |
+| Diffs |  :snail: 4981 | :snail: 395648 | :snail: 11.0006ms |
+| *SearchWithPlainSQL* | 9875 | 650728 | 77.0044ms |
+| SearchWithPlainSQL | 9503 | 646488 | 108.0062ms |
+| Diffs |  :snail: 372 | :snail: 4240 | :zap: 31.0018ms |
+| *SearchWithStruct* | 7322 | 426512 | 122.0069ms |
+| SearchWithStruct | 5939 | 347192 | 76.0044ms |
+| Diffs |  :snail: 1383 | :snail: 79320 | :snail: 46.0025ms |
+| *SearchWithMap* | 5983 | 337272 | 90.0051ms |
+| SearchWithMap | 5008 | 306808 | 92.0053ms |
+| Diffs |  :snail: 975 | :snail: 30464 | :zap: 2.0002ms |
+| *SearchWithEmptyChain* | 4111 | 223584 | 198.0113ms |
+| SearchWithEmptyChain | 3842 | 233328 | 67.0038ms |
+| Diffs |  :snail: 269 | :zap: 9744 | :snail: 131.0075ms |
+| *Select* | 1062 | 56040 | 25.0014ms |
+| Select | 982 | 57568 | 24.0014ms |
+| Diffs |  :snail: 80 | :zap: 1528 | :snail: 1ms |
+| *OrderAndPluck* | 15340 | 956944 | 72.0041ms |
+| OrderAndPluck | 11864 | 699896 | 90.0052ms |
+| Diffs |  :snail: 3476 | :snail: 257048 | :zap: 18.0011ms |
+| *Limit* | 20312 | 1357696 | 125.0071ms |
+| Limit | 15773 | 1058840 | 114.0065ms |
+| Diffs |  :snail: 4539 | :snail: 298856 | :snail: 11.0006ms |
+| *Offset* | 88737 | 5802616 | 520.0297ms |
+| Offset | 68809 | 4351768 | 489.028ms |
+| Diffs |  :snail: 19928 | :snail: 1450848 | :snail: 31.0017ms |
+| *Or* | 2508 | 136496 | 55.0031ms |
+| Or | 2342 | 147208 | 83.0047ms |
+| Diffs |  :snail: 166 | :zap: 10712 | :zap: 28.0016ms |
+| *Count* | 3231 | 177528 | 76.0044ms |
+| Count | 3306 | 205992 | 74.0042ms |
+| Diffs |  :zap: 75 | :zap: 28464 | :snail: 2.0002ms |
+| *Not* | 21839 | 1189088 | 561.0321ms |
+| Not | 20980 | 1544408 | 435.0249ms |
+| Diffs |  :snail: 859 | :zap: 355320 | :snail: 126.0072ms |
+| *FillSmallerStruct* | 894 | 42792 | 46.0026ms |
+| FillSmallerStruct | 909 | 55568 | 57.0033ms |
+| Diffs |  :zap: 15 | :zap: 12776 | :zap: 11.0007ms |
+| *FindOrInitialize* | 7060 | 401904 | 259.0149ms |
+| FindOrInitialize | 5115 | 279344 | 83.0047ms |
+| Diffs |  :snail: 1945 | :snail: 122560 | :snail: 176.0102ms |
+| *FindOrCreate* | 11807 | 642936 | 241.0138ms |
+| FindOrCreate | 10107 | 1332360 | 183.0105ms |
+| Diffs |  :snail: 1700 | :zap: 689424 | :snail: 58.0033ms |
+| *SelectWithEscapedFieldName* | 2299 | 118592 | 67.0038ms |
+| SelectWithEscapedFieldName | 1990 | 120408 | 75.0043ms |
+| Diffs |  :snail: 309 | :zap: 1816 | :zap: 8.0005ms |
+| *SelectWithVariables* | 691 | 34528 | 25.0014ms |
+| SelectWithVariables | 630 | 38792 | 25.0014ms |
+| Diffs |  :snail: 61 | :zap: 4264 | :zzz: |
+| *FirstAndLastWithRaw* | 2609 | 134272 | 42.0024ms |
+| FirstAndLastWithRaw | 2433 | 146128 | 50.0029ms |
+| Diffs |  :snail: 176 | :zap: 11856 | :zap: 8.0005ms |
+| *ScannableSlices* | 510 | 22256 | 299.0171ms |
+| ScannableSlices | 496 | 26728 | 232.0132ms |
+| Diffs |  :snail: 14 | :zap: 4472 | :snail: 67.0039ms |
+| *Scopes* | 3565 | 205264 | 84.0048ms |
+| Scopes | 3286 | 206592 | 133.0076ms |
+| Diffs |  :snail: 279 | :zap: 1328 | :zap: 49.0028ms |
+| *Update* | 6528 | 313360 | 416.0238ms |
+| Update | 6190 | 346064 | 449.0257ms |
+| Diffs |  :snail: 338 | :zap: 32704 | :zap: 33.0019ms |
+| *UpdateWithNoStdPrimaryKeyAndDefaultValues* | 2896 | 129536 | 937.0536ms |
+| UpdateWithNoStdPrimaryKeyAndDefaultValues | 2783 | 163448 | 963.0551ms |
+| Diffs |  :snail: 113 | :zap: 33912 | :zap: 26.0015ms |
+| *Updates* | 4533 | 210640 | 183.0105ms |
+| Updates | 4333 | 239976 | 242.0138ms |
+| Diffs |  :snail: 200 | :zap: 29336 | :zap: 59.0033ms |
+| *UpdateColumn* | 3124 | 147000 | 175.01ms |
+| UpdateColumn | 2667 | 143272 | 217.0124ms |
+| Diffs |  :snail: 457 | :snail: 3728 | :zap: 42.0024ms |
+| *SelectWithUpdate* | 7033 | 336408 | 201.0115ms |
+| SelectWithUpdate | 7038 | 443592 | 250.0143ms |
+| Diffs |  :zap: 5 | :zap: 107184 | :zap: 49.0028ms |
+| *SelectWithUpdateWithMap* | 7063 | 338880 | 192.011ms |
+| SelectWithUpdateWithMap | 7088 | 448704 | 377.0216ms |
+| Diffs |  :zap: 25 | :zap: 109824 | :zap: 185.0106ms |
+| *OmitWithUpdate* | 5987 | 292824 | 131.0075ms |
+| OmitWithUpdate | 5990 | 378352 | 150.0086ms |
+| Diffs |  :zap: 3 | :zap: 85528 | :zap: 19.0011ms |
+| *OmitWithUpdateWithMap* | 5809 | 285112 | 117.0067ms |
+| OmitWithUpdateWithMap | 5848 | 372328 | 310.0177ms |
+| Diffs |  :zap: 39 | :zap: 87216 | :zap: 193.011ms |
+| *SelectWithUpdateColumn* | 4417 | 214168 | 375.0215ms |
+| SelectWithUpdateColumn | 4054 | 249312 | 125.0071ms |
+| Diffs |  :snail: 363 | :zap: 35144 | :snail: 250.0144ms |
+| *OmitWithUpdateColumn* | 4421 | 214536 | 229.0131ms |
+| OmitWithUpdateColumn | 4046 | 248224 | 198.0114ms |
+| Diffs |  :snail: 375 | :zap: 33688 | :snail: 31.0017ms |
+| *UpdateColumnsSkipsAssociations* | 4357 | 208456 | 135.0077ms |
+| UpdateColumnsSkipsAssociations | 4028 | 245888 | 959.0548ms |
+| Diffs |  :snail: 329 | :zap: 37432 | :zap: 824.0471ms |
+| *UpdatesWithBlankValues* | 1254 | 61424 | 99.0057ms |
+| UpdatesWithBlankValues | 1067 | 57896 | 75.0043ms |
+| Diffs |  :snail: 187 | :snail: 3528 | :snail: 24.0014ms |
+| *UpdatesTableWithIgnoredValues* | 400 | 15848 | 117.0067ms |
+| UpdatesTableWithIgnoredValues | 498 | 27280 | 100.0057ms |
+| Diffs |  :zap: 98 | :zap: 11432 | :snail: 17.001ms |
+| *UpdateDecodeVirtualAttributes* | 1042 | 53832 | 83.0048ms |
+| UpdateDecodeVirtualAttributes | 900 | 50304 | 75.0042ms |
+| Diffs |  :snail: 142 | :snail: 3528 | :snail: 8.0006ms |
 | *ToDBNameGenerateFriendlyName* | 120 | 5056 | nothing. |
-| ToDBNameGenerateFriendlyName | 124 | 5424 | nothing. |
-| Diffs |  :zap: 4 | :zap: 368 | :zzz: |
-| *SkipSaveAssociation* | 1323 | 55952 | 400.0229ms |
-| SkipSaveAssociation | 1365 | 74680 | 442.0253ms |
-| Diffs |  :zap: 42 | :zap: 18728 | :zap: 42.0024ms |
-| TOTAL (original) | 610564 | 49250336 | 55.9141975s |
-| TOTAL (new) | 619078 | 36010600 | 47.953743s |
-| TOTAL (diffs) |  :snail: 8514 |   :zap: 13239736 |   :zap: 7.9604545s |
+| ToDBNameGenerateFriendlyName | 123 | 5152 | nothing. |
+| Diffs |  :zap: 3 | :zap: 96 | :zzz: |
+| *SkipSaveAssociation* | 1408 | 57552 | 2.1251216s |
+| SkipSaveAssociation | 1452 | 77928 | 1.6670953s |
+| Diffs |  :zap: 44 | :zap: 20376 | :snail: 458.0263ms |
+| TOTAL (original) | 674659 | 69142816 | 1m25.9979189s |
+| TOTAL (new) | 652590 | 37905616 | 1m22.794735s |
+| TOTAL (diffs) |  :zap: 22069 |  :zap: 31237200 |  :zap: 3.2031839s |
