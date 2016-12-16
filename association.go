@@ -215,10 +215,10 @@ func BelongsToOverrideForeignKey1(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
 
-		if field.RelKind() != newGorm.BELONGS_TO ||
+		if !field.RelationIsBelongsTo() ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"ProfileRefer"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"ID"}) {
 			t.Errorf("Override belongs to foreign key with tag")
@@ -241,10 +241,10 @@ func BelongsToOverrideForeignKey2(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
 
-		if field.RelKind() != newGorm.BELONGS_TO ||
+		if !field.RelationIsBelongsTo()  ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"ProfileID"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"Refer"}) {
 			t.Errorf("Override belongs to foreign key with tag")
@@ -412,10 +412,10 @@ func HasOneOverrideForeignKey1(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
 
-		if field.RelKind() != newGorm.HAS_ONE ||
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
+		if !field.RelationIsHasOne() ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"UserRefer"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"ID"}) {
 			t.Errorf("Override belongs to foreign key with tag")
@@ -438,10 +438,10 @@ func HasOneOverrideForeignKey2(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
 
-		if field.RelKind() != newGorm.HAS_ONE ||
+		if !field.RelationIsHasOne() ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"UserID"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"Refer"}) {
 			t.Errorf("Override belongs to foreign key with tag")
@@ -603,10 +603,10 @@ func HasManyOverrideForeignKey1(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
 
-		if field.RelKind() != newGorm.HAS_MANY ||
+		if !field.RelationIsHasMany() ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"UserRefer"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"ID"}) {
 			t.Errorf("Override belongs to foreign key with tag")
@@ -629,10 +629,10 @@ func HasManyOverrideForeignKey2(t *testing.T) {
 
 	if field, ok := new_types.TestDB.NewScope(&User{}).FieldByName("Profile"); ok {
 
-		ForeignFieldNames := field.GetSliceSetting(newGorm.FOREIGN_FIELD_NAMES)
-		AssociationForeignFieldNames := field.GetSliceSetting(newGorm.ASSOCIATION_FOREIGN_FIELD_NAMES)
+		ForeignFieldNames := field.GetForeignFieldNames()
+		AssociationForeignFieldNames := field.GetAssociationForeignFieldNames()
 
-		if field.RelKind() != newGorm.HAS_MANY ||
+		if !field.RelationIsHasMany() ||
 			!reflect.DeepEqual(ForeignFieldNames, newGorm.StrSlice{"UserID"}) ||
 			!reflect.DeepEqual(AssociationForeignFieldNames, newGorm.StrSlice{"Refer"}) {
 			t.Errorf("Override belongs to foreign key with tag")

@@ -8,6 +8,7 @@ import (
 	"strings"
 	"testing"
 	"time"
+	"os"
 )
 
 type (
@@ -72,6 +73,15 @@ func measureAndRun(t *testing.T, name string, f func(t *testing.T)) bool {
 }
 
 func TestEverything(t *testing.T) {
+	//os.Setenv("GORM_DIALECT", "postgres")
+	//os.Setenv("GORM_DIALECT", "foundation")
+	//os.Setenv("GORM_DIALECT", "sqlite")
+
+	os.Setenv("GORM_DIALECT", "mysql")
+	os.Setenv("GORM_DBADDRESS", "127.0.0.1:3306")
+	os.Setenv("GORM_CONN1", "root:@%v/gorm?charset=utf8&parseTime=True")
+	os.Setenv("GORM_CONN2", "root:@%v/orig_gorm?charset=utf8&parseTime=True")
+
 	measureAndRun(t, "0 OpenTestConnection", OpenNewTestConnection)
 	if new_types.TestDBErr != nil {
 		t.Fatalf("No error should happen when connecting to test database, but got err=%+v", new_types.TestDBErr)

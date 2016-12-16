@@ -135,19 +135,10 @@ func NewDialectHasTzSupport() bool {
 }
 
 func OpenNewTestConnection(t *testing.T) {
-	//os.Setenv("GORM_DIALECT", "postgres")
-	//os.Setenv("GORM_DIALECT", "foundation")
-	//os.Setenv("GORM_DIALECT", "sqlite")
 
-	os.Setenv("GORM_DIALECT", "mysql")
-	os.Setenv("GORM_DBADDRESS", "127.0.0.1:3306")
-	os.Setenv("GORM_CONN1", "root:@%v/gorm?charset=utf8&parseTime=True")
-	os.Setenv("GORM_CONN2", "root:@%v/orig_gorm?charset=utf8&parseTime=True")
-
-	osDialect := os.Getenv("GORM_DIALECT")
 	osDBAddress := os.Getenv("GORM_DBADDRESS")
 	osConn := os.Getenv("GORM_CONN1")
-	switch osDialect {
+	switch os.Getenv("GORM_DIALECT") {
 	case "mysql":
 		if osDBAddress != "" {
 			osDBAddress = fmt.Sprintf("tcp(%v)", osDBAddress)
